@@ -1,0 +1,144 @@
+import { Watch, Ear, Radio, Headphones, Speaker } from "lucide-react";
+
+export const CHECKER_CATEGORIES = [
+  { label: "Smart Watch",        icon: Watch,       color: "from-purple-500/20 to-purple-600/10 border-purple-500/30", iconColor: "text-purple-400" },
+  { label: "TWS / Earbuds",      icon: Ear,         color: "from-blue-500/20 to-blue-600/10 border-blue-500/30",   iconColor: "text-blue-400"   },
+  { label: "Neckband",           icon: Radio,       color: "from-cyan-500/20 to-cyan-600/10 border-cyan-500/30",   iconColor: "text-cyan-400"   },
+  { label: "Headphones",         icon: Headphones,  color: "from-green-500/20 to-green-600/10 border-green-500/30",iconColor: "text-green-400"  },
+  { label: "Bluetooth Speaker",  icon: Speaker,     color: "from-orange-500/20 to-orange-600/10 border-orange-500/30",iconColor: "text-orange-400"},
+] as const;
+
+export type CheckerCategory = typeof CHECKER_CATEGORIES[number]["label"];
+
+// Brands per category — "✗" prefix = NOT serviceable
+export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
+  "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "realme", "Fastrack", "Zebronics", "pTron", "✗ Apple Watch", "✗ Garmin", "? My brand isn't listed"],
+  "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "realme", "Boult", "Zebronics", "pTron", "Portronics", "✗ Apple AirPods", "✗ Samsung Galaxy Buds", "? My brand isn't listed"],
+  "Neckband":          ["boAt", "realme", "OnePlus", "JBL", "Sony", "Noise", "Boult", "Zebronics", "Skullcandy", "pTron", "? My brand isn't listed"],
+  "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "✗ Bang & Olufsen", "? My brand isn't listed"],
+  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "? My brand isn't listed"],
+};
+
+// Issues per category
+export const CHECKER_ISSUES: Record<CheckerCategory, string[]> = {
+  "Smart Watch":       ["Not turning on", "Battery draining fast", "Backup / software issue", "Charging but not powering on", "Not charging", "Display cracked", "Touch not working", "Not connecting to phone", "Water damage", "Other"],
+  "TWS / Earbuds":     ["One side not working", "Both sides not working", "Buds not pairing / backup issue", "Low volume", "Case not charging", "Mic not working", "Touch controls broken", "Physical damage", "Other"],
+  "Neckband":          ["No sound / one side dead", "Wire cut", "Mic not working", "Not charging", "Battery issue", "Low volume", "Pairing issues", "Other"],
+  "Headphones":        ["Wire issue", "Mic not working", "USB / Type-C pin issue", "Speaker issue", "Physical damage", "Not charging", "Battery issue", "One side not working", "Other"],
+  "Bluetooth Speaker": ["Not turning on", "Battery issue", "Backup / software issue", "Charging but not on", "Charging pin / port damage", "No sound", "Distorted sound", "Water damage", "Other"],
+};
+
+export type CheckResult =
+  | { type: "exact";    price: string; time: string; photoRequired?: boolean; note?: string }
+  | { type: "general";  message: string; whatsapp: true }
+  | { type: "limited";  message: string; whatsapp: true }
+  | { type: "no";       reason: string };
+
+// Lookup table: [category]?.[brand]?.[issue] → CheckResult
+// Falls back to general "we service this" if no exact match
+const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, CheckResult>>>> = {
+  "Smart Watch": {
+    Amazfit: {
+      "Not turning on":              { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Battery draining fast":       { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Backup / software issue":     { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Charging but not powering on":{ type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+    },
+    "Fire-Boltt": {
+      "Not charging": { type: "exact", price: "₹600", time: "Within 24 hrs" },
+    },
+  },
+  "TWS / Earbuds": {
+    JBL: {
+      "One side not working":          { type: "exact", price: "₹350 – ₹400", time: "Within 24 hrs" },
+      "Both sides not working":        { type: "exact", price: "₹650 – ₹800", time: "Within 24 hrs" },
+      "Buds not pairing / backup issue":{ type: "exact", price: "₹350 – ₹400 (single) / ₹650 – ₹800 (both)", time: "Within 24 hrs" },
+    },
+    Sony: {
+      "One side not working":          { type: "exact", price: "₹400 – ₹460", time: "Within 24 hrs" },
+      "Both sides not working":        { type: "exact", price: "₹800 – ₹920", time: "Within 24 hrs" },
+      "Buds not pairing / backup issue":{ type: "exact", price: "₹400 – ₹460 (single) / ₹800 – ₹920 (both)", time: "Within 24 hrs" },
+    },
+  },
+  "Headphones": {
+    Jabra: {
+      "Wire issue":           { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Physical damage":      { type: "exact", price: "₹499 – ₹999", time: "Within 2 days", photoRequired: true },
+      "USB / Type-C pin issue":{ type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Mic not working":      { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Speaker issue":        { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+    },
+  },
+  "Bluetooth Speaker": {
+    JBL: {
+      "Not turning on":              { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Battery issue":               { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Backup / software issue":     { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Charging but not on":         { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+    },
+    Marshall: {
+      "Not turning on":          { type: "exact", price: "₹2,200", time: "Within 2 days" },
+      "Battery issue":           { type: "exact", price: "₹2,200", time: "Within 2 days" },
+      "Backup / software issue": { type: "exact", price: "₹2,200", time: "Within 2 days" },
+    },
+    boAt: {
+      "Not turning on":          { type: "exact", price: "₹750", time: "Within 24 hrs" },
+      "Backup / software issue": { type: "exact", price: "₹750", time: "Within 24 hrs" },
+      "Charging pin / port damage":{ type: "exact", price: "₹380", time: "Within 24 hrs", photoRequired: true },
+    },
+  },
+};
+
+// Generic issue pricing that applies to ALL brands in a category (fallback)
+const GENERIC_ISSUE_PRICE: Partial<Record<CheckerCategory, Record<string, Omit<Extract<CheckResult, { type: "exact" }>, "type">>>> = {
+  "TWS / Earbuds": {
+    "Low volume": { price: "Starting ₹99", time: "30 min – 1 day", photoRequired: true },
+  },
+  "Bluetooth Speaker": {
+    "Charging pin / port damage": { price: "Starting ₹299", time: "1 – 2 days", photoRequired: true },
+  },
+  "Headphones": {
+    "Physical damage": { price: "₹480 – ₹900", time: "Within 2 days", photoRequired: true },
+  },
+};
+
+const NOT_SERVICEABLE: Partial<Record<CheckerCategory, Record<string, string>>> = {
+  "Smart Watch":      { "✗ Apple Watch": "We don't service Apple Watches.", "✗ Garmin": "We don't service Garmin watches currently." },
+  "TWS / Earbuds":    { "✗ Apple AirPods": "We don't service Apple AirPods.", "✗ Samsung Galaxy Buds": "Samsung Galaxy Buds require proprietary parts — not serviceable at this time." },
+  "Headphones":       { "✗ Bang & Olufsen": "Bang & Olufsen devices require authorised service." },
+  "Bluetooth Speaker":{ "✗ Ultimate Ears": "Ultimate Ears devices are not serviceable at this time." },
+};
+
+export function getCheckResult(
+  category: CheckerCategory,
+  brand: string,
+  issue: string
+): CheckResult {
+  // Unknown brand
+  if (brand.startsWith("?")) {
+    return {
+      type: "general",
+      message: `We service many ${category.toLowerCase()} brands not listed here. WhatsApp us with your brand name and we'll confirm.`,
+      whatsapp: true,
+    };
+  }
+
+  // Not serviceable brands (issue may be empty when skipping step)
+  const notServ = NOT_SERVICEABLE[category]?.[brand];
+  if (notServ) return { type: "no", reason: notServ };
+
+  // Exact brand + issue match
+  const exact = EXACT[category]?.[brand]?.[issue];
+  if (exact) return exact;
+
+  // Generic issue price (applies to all brands)
+  const generic = GENERIC_ISSUE_PRICE[category]?.[issue];
+  if (generic) return { type: "exact", ...generic };
+
+  // Serviceable but no specific price
+  return {
+    type: "general",
+    message: `We service ${brand} ${category.toLowerCase()}s. WhatsApp us for an exact quote.`,
+    whatsapp: true,
+  };
+}
