@@ -61,7 +61,7 @@ export default function ServicePage({
                       <th className="px-4 py-3 text-left font-semibold">Brand</th>
                       <th className="px-4 py-3 text-left font-semibold">Model</th>
                       <th className="px-4 py-3 text-left font-semibold">Issues Covered</th>
-                      <th className="px-4 py-3 text-left font-semibold">Cost (₹)</th>
+                      <th className="px-4 py-3 text-left font-semibold">Approx Cost (₹)</th>
                       <th className="px-4 py-3 text-left font-semibold">TAT</th>
                       <th className="px-4 py-3 text-left font-semibold">Book</th>
                     </tr>
