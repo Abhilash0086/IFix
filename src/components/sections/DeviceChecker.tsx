@@ -206,7 +206,7 @@ export default function DeviceChecker() {
 
                     <div className="flex flex-col sm:flex-row gap-3 pt-1">
                       <a
-                        href="/#contact"
+                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand.replace("✗ ", ""))}&issue=${encodeURIComponent(issue)}#contact`}
                         className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
                       >
                         Book Repair Now

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { Upload, Send, CheckCircle, Loader2, X, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,38 +15,35 @@ import {
   type DeviceCategory,
 } from "@/lib/constants";
 
-// Combinations where a device photo is mandatory before quoting
 const PHOTO_REQUIRED_COMBOS: { category: DeviceCategory; complaint: string }[] = [
-  { category: "Headphones",          complaint: "Physical damage" },
-  { category: "TWS / Earbuds",       complaint: "Low volume" },
-  { category: "Bluetooth Speaker",   complaint: "Charging pin / port damage" },
+  { category: "Headphones",         complaint: "Physical damage" },
+  { category: "TWS / Earbuds",      complaint: "Low volume" },
+  { category: "Bluetooth Speaker",  complaint: "Charging pin / port damage" },
 ];
 
 function isPhotoRequired(category: DeviceCategory | undefined, complaint: string | undefined): boolean {
   if (!category || !complaint) return false;
-  return PHOTO_REQUIRED_COMBOS.some(
-    (c) => c.category === category && c.complaint === complaint
-  );
+  return PHOTO_REQUIRED_COMBOS.some((c) => c.category === category && c.complaint === complaint);
 }
 
 const schema = z.object({
-  fullName: z.string().min(2, "Enter your full name"),
-  mobile: z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile number"),
-  email: z.string().email("Enter a valid email").optional().or(z.literal("")),
+  fullName:       z.string().min(2, "Enter your full name"),
+  mobile:         z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile number"),
+  email:          z.string().email("Enter a valid email").optional().or(z.literal("")),
   deviceCategory: z.enum(DEVICE_CATEGORIES as unknown as [string, ...string[]]),
-  complaintType: z.string().min(1, "Select a complaint type"),
-  modelType: z.string().optional(),
-  brand: z.string().min(1, "Select a brand"),
-  district: z.string().min(1, "Select your district"),
-  remarks: z.string().optional(),
+  complaintType:  z.string().min(1, "Select a complaint type"),
+  modelType:      z.string().optional(),
+  brand:          z.string().min(1, "Select a brand"),
+  district:       z.string().min(1, "Select your district"),
+  remarks:        z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
 
-// Replace with your deployed Google Apps Script URL
 const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
-export default function ContactForm() {
+function ContactFormInner() {
+  const searchParams = useSearchParams();
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -57,12 +55,25 @@ export default function ContactForm() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const selectedCategory = watch("deviceCategory") as DeviceCategory | undefined;
+  // Pre-fill from Quick Check URL params
+  useEffect(() => {
+    const category  = searchParams.get("category") as DeviceCategory | null;
+    const brand     = searchParams.get("brand");
+    const issue     = searchParams.get("issue");
+    if (category && DEVICE_CATEGORIES.includes(category as DeviceCategory)) {
+      setValue("deviceCategory", category);
+    }
+    if (brand)  setValue("brand", brand);
+    if (issue)  setValue("complaintType", issue);
+  }, [searchParams, setValue]);
+
+  const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
   const selectedComplaint = watch("complaintType");
-  const photoRequired = isPhotoRequired(selectedCategory, selectedComplaint);
+  const photoRequired     = isPhotoRequired(selectedCategory, selectedComplaint);
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,13 +97,11 @@ export default function ContactForm() {
       fileInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
-
     setIsLoading(true);
     try {
       const payload = new FormData();
       Object.entries(data).forEach(([k, v]) => v && payload.append(k, v as string));
       if (photoFile) payload.append("photo", photoFile);
-
       await fetch(SCRIPT_URL, { method: "POST", body: payload });
       setSubmitted(true);
     } catch {
@@ -104,16 +113,166 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <section id="contact" className="py-24 bg-gray-950">
-        <div className="container mx-auto px-4 text-center">
-          <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-          <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
-          <p className="text-gray-400">We&apos;ll contact you within a few hours. Thank you!</p>
-        </div>
-      </section>
+      <div className="text-center">
+        <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
+        <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
+        <p className="text-gray-400">We&apos;ll contact you within a few hours. Thank you!</p>
+      </div>
     );
   }
 
+  const prefilled = !!(searchParams.get("category") || searchParams.get("brand") || searchParams.get("issue"));
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-5">
+
+      {/* Pre-fill banner */}
+      {prefilled && (
+        <div className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-xl px-4 py-3 text-sm text-blue-300">
+          <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
+          Details from your Quick Check have been filled in. Review and complete the form below.
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <Field label="Full Name *" error={errors.fullName?.message}>
+          <input {...register("fullName")} placeholder="Your name" className={inputCls(!!errors.fullName)} />
+        </Field>
+        <Field label="Mobile Number *" error={errors.mobile?.message}>
+          <input {...register("mobile")} placeholder="10-digit number" maxLength={10} className={inputCls(!!errors.mobile)} />
+        </Field>
+      </div>
+
+      <Field label="Email (optional)" error={errors.email?.message}>
+        <input {...register("email")} type="email" placeholder="you@example.com" className={inputCls(!!errors.email)} />
+      </Field>
+
+      <Field label="Device Category *" error={errors.deviceCategory?.message}>
+        <select {...register("deviceCategory")} className={inputCls(!!errors.deviceCategory)}>
+          <option value="">Select category</option>
+          {DEVICE_CATEGORIES.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+      </Field>
+
+      {selectedCategory && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <Field label="Complaint Type *" error={errors.complaintType?.message}>
+            <select {...register("complaintType")} className={inputCls(!!errors.complaintType)}>
+              <option value="">Select complaint</option>
+              {COMPLAINT_TYPES[selectedCategory]?.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Brand *" error={errors.brand?.message}>
+            <select {...register("brand")} className={inputCls(!!errors.brand)}>
+              <option value="">Select brand</option>
+              {BRANDS[selectedCategory]?.map((b) => (
+                <option key={b} value={b}>{b}</option>
+              ))}
+            </select>
+          </Field>
+        </div>
+      )}
+
+      <Field label="Model (optional)">
+        <input {...register("modelType")} placeholder="e.g. boAt Airdopes 141" className={inputCls(false)} />
+      </Field>
+
+      <Field label="District *" error={errors.district?.message}>
+        <select {...register("district")} className={inputCls(!!errors.district)}>
+          <option value="">Select district</option>
+          {TN_DISTRICTS.map((d) => (
+            <option key={d} value={d}>{d}</option>
+          ))}
+        </select>
+      </Field>
+
+      <Field label="Remarks (optional)">
+        <textarea
+          {...register("remarks")}
+          rows={3}
+          placeholder="Describe the issue in detail..."
+          className={cn(inputCls(false), "resize-none")}
+        />
+      </Field>
+
+      {/* Photo upload */}
+      <div>
+        <label className="block text-sm mb-2">
+          <span className={cn("font-medium", photoRequired ? "text-amber-400" : "text-gray-300")}>
+            Device Photo {photoRequired ? "*" : "(optional)"}
+          </span>
+          {photoRequired && (
+            <span className="ml-2 text-xs bg-amber-500/10 border border-amber-500/30 text-amber-400 px-2 py-0.5 rounded-full">
+              Required for this repair type
+            </span>
+          )}
+        </label>
+
+        {photoRequired && !photoFile && (
+          <div className="flex items-start gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 mb-3">
+            <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+            <p className="text-amber-300 text-sm">
+              A photo of your device is required for this repair type so we can assess the damage and give you an accurate quote.
+            </p>
+          </div>
+        )}
+
+        <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
+
+        {photoPreview ? (
+          <div className="relative inline-block">
+            <img src={photoPreview} alt="Device" className="h-32 rounded-xl object-cover border border-gray-700" />
+            <button
+              type="button"
+              onClick={removePhoto}
+              className="absolute -top-2 -right-2 bg-gray-800 rounded-full p-1 text-gray-400 hover:text-white"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => { setPhotoError(false); fileInputRef.current?.click(); }}
+            className={cn(
+              "flex items-center gap-2 border border-dashed rounded-xl px-4 py-3 text-sm transition-colors",
+              photoError
+                ? "border-red-500 text-red-400 bg-red-500/5"
+                : photoRequired
+                ? "border-amber-500/50 hover:border-amber-400 text-amber-400 hover:bg-amber-500/5"
+                : "border-gray-600 hover:border-blue-500 text-gray-400 hover:text-blue-400"
+            )}
+          >
+            <Upload className="w-4 h-4" />
+            {photoRequired ? "Upload device photo (required)" : "Upload photo"}
+          </button>
+        )}
+
+        {photoError && (
+          <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+            <AlertCircle className="w-3.5 h-3.5" />
+            Please upload a photo of your device to continue.
+          </p>
+        )}
+      </div>
+
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-4 rounded-xl transition-colors"
+      >
+        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+        {isLoading ? "Submitting..." : "Submit Repair Request"}
+      </button>
+    </form>
+  );
+}
+
+export default function ContactForm() {
   return (
     <section id="contact" className="py-24 bg-gray-950">
       <div className="container mx-auto px-4">
@@ -124,146 +283,9 @@ export default function ContactForm() {
             Fill in the form and we&apos;ll get back to you with a diagnosis and quote.
           </p>
         </div>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-5"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <Field label="Full Name *" error={errors.fullName?.message}>
-              <input {...register("fullName")} placeholder="Your name" className={inputCls(!!errors.fullName)} />
-            </Field>
-            <Field label="Mobile Number *" error={errors.mobile?.message}>
-              <input {...register("mobile")} placeholder="10-digit number" maxLength={10} className={inputCls(!!errors.mobile)} />
-            </Field>
-          </div>
-
-          <Field label="Email (optional)" error={errors.email?.message}>
-            <input {...register("email")} type="email" placeholder="you@example.com" className={inputCls(!!errors.email)} />
-          </Field>
-
-          <Field label="Device Category *" error={errors.deviceCategory?.message}>
-            <select {...register("deviceCategory")} className={inputCls(!!errors.deviceCategory)}>
-              <option value="">Select category</option>
-              {DEVICE_CATEGORIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </Field>
-
-          {selectedCategory && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Field label="Complaint Type *" error={errors.complaintType?.message}>
-                <select {...register("complaintType")} className={inputCls(!!errors.complaintType)}>
-                  <option value="">Select complaint</option>
-                  {COMPLAINT_TYPES[selectedCategory]?.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </Field>
-              <Field label="Brand *" error={errors.brand?.message}>
-                <select {...register("brand")} className={inputCls(!!errors.brand)}>
-                  <option value="">Select brand</option>
-                  {BRANDS[selectedCategory]?.map((b) => (
-                    <option key={b} value={b}>{b}</option>
-                  ))}
-                </select>
-              </Field>
-            </div>
-          )}
-
-          <Field label="Model (optional)">
-            <input {...register("modelType")} placeholder="e.g. boAt Airdopes 141" className={inputCls(false)} />
-          </Field>
-
-          <Field label="District *" error={errors.district?.message}>
-            <select {...register("district")} className={inputCls(!!errors.district)}>
-              <option value="">Select district</option>
-              {TN_DISTRICTS.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
-            </select>
-          </Field>
-
-          <Field label="Remarks (optional)">
-            <textarea
-              {...register("remarks")}
-              rows={3}
-              placeholder="Describe the issue in detail..."
-              className={cn(inputCls(false), "resize-none")}
-            />
-          </Field>
-
-          {/* Photo upload */}
-          <div>
-            <label className="block text-sm mb-2">
-              <span className={cn("font-medium", photoRequired ? "text-amber-400" : "text-gray-300")}>
-                Device Photo {photoRequired ? "*" : "(optional)"}
-              </span>
-              {photoRequired && (
-                <span className="ml-2 text-xs bg-amber-500/10 border border-amber-500/30 text-amber-400 px-2 py-0.5 rounded-full">
-                  Required for this repair type
-                </span>
-              )}
-            </label>
-
-            {photoRequired && !photoFile && (
-              <div className="flex items-start gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 mb-3">
-                <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                <p className="text-amber-300 text-sm">
-                  A photo of your device is required for this repair type so we can assess the damage and give you an accurate quote.
-                </p>
-              </div>
-            )}
-
-            <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
-
-            {photoPreview ? (
-              <div className="relative inline-block">
-                <img src={photoPreview} alt="Device" className="h-32 rounded-xl object-cover border border-gray-700" />
-                <button
-                  type="button"
-                  onClick={removePhoto}
-                  className="absolute -top-2 -right-2 bg-gray-800 rounded-full p-1 text-gray-400 hover:text-white"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => { setPhotoError(false); fileInputRef.current?.click(); }}
-                className={cn(
-                  "flex items-center gap-2 border border-dashed rounded-xl px-4 py-3 text-sm transition-colors",
-                  photoError
-                    ? "border-red-500 text-red-400 bg-red-500/5"
-                    : photoRequired
-                    ? "border-amber-500/50 hover:border-amber-400 text-amber-400 hover:bg-amber-500/5"
-                    : "border-gray-600 hover:border-blue-500 text-gray-400 hover:text-blue-400"
-                )}
-              >
-                <Upload className="w-4 h-4" />
-                {photoRequired ? "Upload device photo (required)" : "Upload photo"}
-              </button>
-            )}
-
-            {photoError && (
-              <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5" />
-                Please upload a photo of your device to continue.
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-4 rounded-xl transition-colors"
-          >
-            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-            {isLoading ? "Submitting..." : "Submit Repair Request"}
-          </button>
-        </form>
+        <Suspense fallback={<div className="max-w-2xl mx-auto h-96 bg-gray-900 border border-gray-800 rounded-2xl animate-pulse" />}>
+          <ContactFormInner />
+        </Suspense>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import { Watch, Ear, Radio, Headphones, Speaker } from "lucide-react";
+import { COMPLAINT_TYPES } from "./constants";
 
 export const CHECKER_CATEGORIES = [
   { label: "Smart Watch",        icon: Watch,       color: "from-purple-500/20 to-purple-600/10 border-purple-500/30", iconColor: "text-purple-400" },
@@ -19,14 +20,8 @@ export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
   "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "✗ Other Brands"],
 };
 
-// Issues per category
-export const CHECKER_ISSUES: Record<CheckerCategory, string[]> = {
-  "Smart Watch":       ["Not turning on", "Battery draining fast", "Backup / software issue", "Charging but not powering on", "Not charging", "Display cracked", "Touch not working", "Not connecting to phone", "Water damage", "Other"],
-  "TWS / Earbuds":     ["One side not working", "Both sides not working", "Buds not pairing / backup issue", "Low volume", "Case not charging", "Mic not working", "Touch controls broken", "Physical damage", "Other"],
-  "Neckband":          ["No sound / one side dead", "Wire cut", "Mic not working", "Not charging", "Battery issue", "Low volume", "Pairing issues", "Other"],
-  "Headphones":        ["Wire issue", "Mic not working", "USB / Type-C pin issue", "Speaker issue", "Physical damage", "Not charging", "Battery issue", "One side not working", "Other"],
-  "Bluetooth Speaker": ["Not turning on", "Battery issue", "Backup / software issue", "Charging but not on", "Charging pin / port damage", "No sound", "Distorted sound", "Water damage", "Other"],
-};
+// Issues per category — mirrors COMPLAINT_TYPES exactly so pre-fill works
+export const CHECKER_ISSUES = COMPLAINT_TYPES;
 
 export type CheckResult =
   | { type: "exact";    price: string; time: string; photoRequired?: boolean; note?: string }
@@ -39,52 +34,51 @@ export type CheckResult =
 const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, CheckResult>>>> = {
   "Smart Watch": {
     Amazfit: {
-      "Not turning on":              { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
-      "Battery draining fast":       { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
-      "Backup / software issue":     { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
-      "Charging but not powering on":{ type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Not turning on":        { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Battery draining fast": { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Water damage":          { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Charging not working":  { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
     },
     "Fire-Boltt": {
-      "Not charging": { type: "exact", price: "₹600", time: "Within 24 hrs" },
+      "Charging not working": { type: "exact", price: "₹600", time: "Within 24 hrs" },
     },
   },
   "TWS / Earbuds": {
     JBL: {
-      "One side not working":          { type: "exact", price: "₹350 – ₹400", time: "Within 24 hrs" },
-      "Both sides not working":        { type: "exact", price: "₹650 – ₹800", time: "Within 24 hrs" },
-      "Buds not pairing / backup issue":{ type: "exact", price: "₹350 – ₹400 (single) / ₹650 – ₹800 (both)", time: "Within 24 hrs" },
+      "One side not working":  { type: "exact", price: "₹350 – ₹400", time: "Within 24 hrs" },
+      "Both sides not working":{ type: "exact", price: "₹650 – ₹800", time: "Within 24 hrs" },
+      "Connectivity issues":   { type: "exact", price: "₹350 – ₹400 (single) / ₹650 – ₹800 (both)", time: "Within 24 hrs" },
     },
     Sony: {
-      "One side not working":          { type: "exact", price: "₹400 – ₹460", time: "Within 24 hrs" },
-      "Both sides not working":        { type: "exact", price: "₹800 – ₹920", time: "Within 24 hrs" },
-      "Buds not pairing / backup issue":{ type: "exact", price: "₹400 – ₹460 (single) / ₹800 – ₹920 (both)", time: "Within 24 hrs" },
+      "One side not working":  { type: "exact", price: "₹400 – ₹460", time: "Within 24 hrs" },
+      "Both sides not working":{ type: "exact", price: "₹800 – ₹920", time: "Within 24 hrs" },
+      "Connectivity issues":   { type: "exact", price: "₹400 – ₹460 (single) / ₹800 – ₹920 (both)", time: "Within 24 hrs" },
     },
   },
   "Headphones": {
     Jabra: {
-      "Wire issue":           { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
-      "Physical damage":      { type: "exact", price: "₹499 – ₹999", time: "Within 2 days", photoRequired: true },
-      "USB / Type-C pin issue":{ type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
-      "Mic not working":      { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
-      "Speaker issue":        { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Charging not working":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Physical damage":       { type: "exact", price: "₹499 – ₹999", time: "Within 2 days", photoRequired: true },
+      "Mic not working":       { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "One side not working":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
     },
   },
   "Bluetooth Speaker": {
     JBL: {
-      "Not turning on":              { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
-      "Battery issue":               { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
-      "Backup / software issue":     { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
-      "Charging but not on":         { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "No sound":                  { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Battery issue":             { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Distorted sound":           { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Charging not working":      { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
     },
     Marshall: {
-      "Not turning on":          { type: "exact", price: "₹2,200", time: "Within 2 days" },
-      "Battery issue":           { type: "exact", price: "₹2,200", time: "Within 2 days" },
-      "Backup / software issue": { type: "exact", price: "₹2,200", time: "Within 2 days" },
+      "No sound":            { type: "exact", price: "₹2,200", time: "Within 2 days" },
+      "Battery issue":       { type: "exact", price: "₹2,200", time: "Within 2 days" },
+      "Distorted sound":     { type: "exact", price: "₹2,200", time: "Within 2 days" },
     },
     boAt: {
-      "Not turning on":          { type: "exact", price: "₹750", time: "Within 24 hrs" },
-      "Backup / software issue": { type: "exact", price: "₹750", time: "Within 24 hrs" },
-      "Charging pin / port damage":{ type: "exact", price: "₹380", time: "Within 24 hrs", photoRequired: true },
+      "No sound":                    { type: "exact", price: "₹750", time: "Within 24 hrs" },
+      "Distorted sound":             { type: "exact", price: "₹750", time: "Within 24 hrs" },
+      "Charging pin / port damage":  { type: "exact", price: "₹380", time: "Within 24 hrs", photoRequired: true },
     },
   },
 };
