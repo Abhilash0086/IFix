@@ -7,6 +7,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import ContactForm from "@/components/sections/ContactForm";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <ContactForm />
       </main>
       <Footer />
+      <WhatsAppButton />
     </>
   );
 }
