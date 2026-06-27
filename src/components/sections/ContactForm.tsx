@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
-import { Upload, Send, CheckCircle, Loader2, X, AlertCircle, XCircle } from "lucide-react";
+import { Upload, Send, CheckCircle, Loader2, X, AlertCircle, XCircle, Package, Store } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DEVICE_CATEGORIES,
@@ -27,15 +27,27 @@ function isPhotoRequired(category: DeviceCategory | undefined, complaint: string
 }
 
 const schema = z.object({
-  fullName:       z.string().min(2, "Enter your full name"),
-  mobile:         z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile number"),
-  email:          z.string().email("Enter a valid email").optional().or(z.literal("")),
-  deviceCategory: z.enum(DEVICE_CATEGORIES as unknown as [string, ...string[]]),
-  complaintType:  z.string().min(1, "Select a complaint type"),
-  modelType:      z.string().optional(),
-  brand:          z.string().min(1, "Select a brand"),
-  district:       z.string().min(1, "Select your district"),
-  remarks:        z.string().optional(),
+  fullName:        z.string().min(2, "Enter your full name"),
+  mobile:          z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile number"),
+  email:           z.string().email("Enter a valid email").optional().or(z.literal("")),
+  deviceCategory:  z.enum(DEVICE_CATEGORIES as unknown as [string, ...string[]]),
+  complaintType:   z.string().min(1, "Select a complaint type"),
+  modelType:       z.string().optional(),
+  brand:           z.string().min(1, "Select a brand"),
+  district:        z.string().min(1, "Select your district"),
+  deliveryMethod:  z.enum(["pickup", "courier"]),
+  returnAddress:   z.string().optional(),
+  returnPincode:   z.string().optional(),
+  remarks:         z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.deliveryMethod === "courier") {
+    if (!data.returnAddress || data.returnAddress.trim().length < 10) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Enter your full delivery address", path: ["returnAddress"] });
+    }
+    if (!data.returnPincode || !/^\d{6}$/.test(data.returnPincode)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Enter a valid 6-digit pincode", path: ["returnPincode"] });
+    }
+  }
 });
 
 type FormData = z.infer<typeof schema>;
@@ -60,9 +72,22 @@ function ContactFormInner() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
-  const selectedComplaint = watch("complaintType");
-  const photoRequired     = isPhotoRequired(selectedCategory, selectedComplaint);
+  const selectedCategory   = watch("deviceCategory") as DeviceCategory | undefined;
+  const selectedComplaint  = watch("complaintType");
+  const selectedDistrict   = watch("district");
+  const deliveryMethod     = watch("deliveryMethod");
+  const photoRequired      = isPhotoRequired(selectedCategory, selectedComplaint);
+  const isCourier          = deliveryMethod === "courier";
+
+  // Auto-switch to courier when a non-Coimbatore district is selected
+  useEffect(() => {
+    if (!selectedDistrict) return;
+    if (selectedDistrict !== "Coimbatore") {
+      setValue("deliveryMethod", "courier");
+    } else {
+      setValue("deliveryMethod", "pickup");
+    }
+  }, [selectedDistrict, setValue]);
 
   // Step 1: set category first so the brand/complaint selects mount
   useEffect(() => {
@@ -113,7 +138,7 @@ function ContactFormInner() {
     setIsLoading(true);
     try {
       const payload = new FormData();
-      Object.entries(data).forEach(([k, v]) => v && payload.append(k, v as string));
+      Object.entries(data).forEach(([k, v]) => v != null && v !== "" && payload.append(k, v as string));
       if (photoFile) payload.append("photo", photoFile);
       await fetch(SCRIPT_URL, { method: "POST", body: payload, mode: "no-cors" });
       showToast("Request received! We'll contact you within a few hours.", "success");
@@ -204,6 +229,76 @@ function ContactFormInner() {
           ))}
         </select>
       </Field>
+
+      {/* Delivery method — only show after district is selected */}
+      {selectedDistrict && (
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-gray-300">Device Return *</label>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setValue("deliveryMethod", "pickup")}
+              className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
+                !isCourier
+                  ? "bg-blue-600/20 border-blue-500 text-white"
+                  : "bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-500"
+              )}
+            >
+              <Store className="w-4 h-4 flex-shrink-0" />
+              <span>I&apos;ll pick up from store</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setValue("deliveryMethod", "courier")}
+              className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
+                isCourier
+                  ? "bg-blue-600/20 border-blue-500 text-white"
+                  : "bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-500"
+              )}
+            >
+              <Package className="w-4 h-4 flex-shrink-0" />
+              <span>Courier it to me</span>
+            </button>
+          </div>
+          {/* Hidden register field */}
+          <input type="hidden" {...register("deliveryMethod")} />
+
+          {/* Courier address fields */}
+          {isCourier && (
+            <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4 space-y-4">
+              <p className="text-blue-300 text-xs flex items-center gap-2">
+                <Package className="w-3.5 h-3.5" />
+                We&apos;ll courier your repaired device to this address.
+              </p>
+              <Field label="Full Delivery Address *" error={errors.returnAddress?.message}>
+                <textarea
+                  {...register("returnAddress")}
+                  rows={2}
+                  placeholder="Door no, Street, Area, City"
+                  className={cn(inputCls(!!errors.returnAddress), "resize-none")}
+                />
+              </Field>
+              <Field label="Pincode *" error={errors.returnPincode?.message}>
+                <input
+                  {...register("returnPincode")}
+                  placeholder="6-digit pincode"
+                  maxLength={6}
+                  className={inputCls(!!errors.returnPincode)}
+                />
+              </Field>
+            </div>
+          )}
+
+          {!isCourier && selectedDistrict && selectedDistrict !== "Coimbatore" && (
+            <p className="text-amber-400 text-xs flex items-center gap-1.5">
+              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              You selected a district outside Coimbatore. Are you sure you want store pickup?
+            </p>
+          )}
+        </div>
+      )}
 
       <Field label="Remarks (optional)">
         <textarea

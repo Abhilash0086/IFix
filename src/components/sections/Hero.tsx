@@ -58,7 +58,7 @@ export default function Hero() {
             transition={{ delay: 0.2 }}
             className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm px-4 py-1.5 rounded-full mb-6"
           >
-            Coimbatore&apos;s Trusted Bluetooth &amp; Neckband Repair Experts
+            India&apos;s Trusted Bluetooth &amp; Neckband Repair Experts
           </motion.span>
 
           <motion.h1
