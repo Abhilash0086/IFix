@@ -60,6 +60,10 @@ function ContactFormInner() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
+  const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
+  const selectedComplaint = watch("complaintType");
+  const photoRequired     = isPhotoRequired(selectedCategory, selectedComplaint);
+
   // Step 1: set category first so the brand/complaint selects mount
   useEffect(() => {
     const category = searchParams.get("category") as DeviceCategory | null;
@@ -78,10 +82,6 @@ function ContactFormInner() {
     if (issue) setValue("complaintType", issue);
     if (model) setValue("modelType", model);
   }, [selectedCategory, searchParams, setValue]);
-
-  const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
-  const selectedComplaint = watch("complaintType");
-  const photoRequired     = isPhotoRequired(selectedCategory, selectedComplaint);
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
