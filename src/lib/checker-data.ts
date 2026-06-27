@@ -114,11 +114,11 @@ export function getCheckResult(
   brand: string,
   issue: string
 ): CheckResult {
-  // Unknown brand
+  // Unknown brand — not in our confirmed service list
   if (brand.startsWith("?")) {
     return {
-      type: "general",
-      message: `We service many ${category.toLowerCase()} brands not listed here. WhatsApp us with your brand name and we'll confirm.`,
+      type: "limited",
+      message: `Your brand isn't in our confirmed service list for ${category.toLowerCase()}s. We may or may not be able to help — WhatsApp us with your brand name and model and we'll let you know before you visit.`,
       whatsapp: true,
     };
   }

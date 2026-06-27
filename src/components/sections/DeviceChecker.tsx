@@ -21,7 +21,7 @@ export default function DeviceChecker() {
   const [brand, setBrand] = useState("");
   const [issue, setIssue] = useState("");
 
-  const result = category && brand && (issue || brand.startsWith("✗"))
+  const result = category && brand && (issue || brand.startsWith("✗") || brand.startsWith("?"))
     ? getCheckResult(category, brand, issue)
     : null;
 
@@ -112,7 +112,7 @@ export default function DeviceChecker() {
                     return (
                       <button
                         key={b}
-                        onClick={() => { setBrand(b); setStep(isUnsupported ? "result" : "issue"); if (isUnsupported) setIssue(""); }}
+                        onClick={() => { setBrand(b); setIssue(""); setStep((isUnsupported || isUnknown) ? "result" : "issue"); }}
                         className={cn(
                           "flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-medium transition-all",
                           isUnsupported
@@ -223,6 +223,26 @@ export default function DeviceChecker() {
                         <MessageCircle className="w-4 h-4" /> WhatsApp Us
                       </a>
                     </div>
+                  </div>
+                )}
+
+                {result.type === "limited" && (
+                  <div className="bg-amber-900/20 border border-amber-700/40 rounded-2xl p-6 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <AlertTriangle className="w-8 h-8 text-amber-400 flex-shrink-0" />
+                      <div>
+                        <p className="text-amber-400 font-bold text-lg">Brand Not in Our Service List</p>
+                        <p className="text-gray-400 text-sm mt-1">{result.message}</p>
+                      </div>
+                    </div>
+                    <a
+                      href={`https://wa.me/${BUSINESS.whatsapp}?text=Hi, I want to check if you service my ${category} — Brand: (my brand). Can you confirm?`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+                    >
+                      <MessageCircle className="w-4 h-4" /> WhatsApp to Confirm
+                    </a>
                   </div>
                 )}
 
