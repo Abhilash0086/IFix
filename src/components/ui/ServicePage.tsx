@@ -44,13 +44,7 @@ export default function ServicePage({
         <section className="py-20 bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 text-center px-4">
           <p className="text-blue-400 text-sm font-medium uppercase tracking-widest mb-3">{subtitle}</p>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{title}</h1>
-          <p className="text-gray-400 max-w-xl mx-auto mb-8">{description}</p>
-          <a
-            href={`/?category=${encodeURIComponent(category)}#contact`}
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-colors"
-          >
-            Book Repair <ArrowRight className="w-5 h-5" />
-          </a>
+          <p className="text-gray-400 max-w-xl mx-auto">{description}</p>
         </section>
 
         <div className="container mx-auto px-4 py-16 space-y-16 max-w-6xl">
