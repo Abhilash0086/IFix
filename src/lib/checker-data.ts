@@ -12,11 +12,11 @@ export type CheckerCategory = typeof CHECKER_CATEGORIES[number]["label"];
 
 // Brands per category — "✗" prefix = NOT serviceable
 export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
-  "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "realme", "Fastrack", "Zebronics", "pTron", "✗ Apple Watch", "✗ Garmin", "? My brand isn't listed"],
-  "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "realme", "Boult", "Zebronics", "pTron", "Portronics", "✗ Apple AirPods", "✗ Samsung Galaxy Buds", "? My brand isn't listed"],
-  "Neckband":          ["boAt", "realme", "OnePlus", "JBL", "Sony", "Noise", "Boult", "Zebronics", "Skullcandy", "pTron", "? My brand isn't listed"],
-  "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "✗ Bang & Olufsen", "? My brand isn't listed"],
-  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "? My brand isn't listed"],
+  "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "realme", "Fastrack", "Zebronics", "pTron", "✗ Apple Watch", "✗ Garmin", "✗ Other Brands"],
+  "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "realme", "Boult", "Zebronics", "pTron", "Portronics", "✗ Apple AirPods", "✗ Samsung Galaxy Buds", "✗ Other Brands"],
+  "Neckband":          ["boAt", "realme", "OnePlus", "JBL", "Sony", "Noise", "Boult", "Zebronics", "Skullcandy", "pTron", "✗ Other Brands"],
+  "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "✗ Bang & Olufsen", "✗ Other Brands"],
+  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "✗ Other Brands"],
 };
 
 // Issues per category
@@ -103,10 +103,11 @@ const GENERIC_ISSUE_PRICE: Partial<Record<CheckerCategory, Record<string, Omit<E
 };
 
 const NOT_SERVICEABLE: Partial<Record<CheckerCategory, Record<string, string>>> = {
-  "Smart Watch":      { "✗ Apple Watch": "We don't service Apple Watches.", "✗ Garmin": "We don't service Garmin watches currently." },
-  "TWS / Earbuds":    { "✗ Apple AirPods": "We don't service Apple AirPods.", "✗ Samsung Galaxy Buds": "Samsung Galaxy Buds require proprietary parts — not serviceable at this time." },
-  "Headphones":       { "✗ Bang & Olufsen": "Bang & Olufsen devices require authorised service." },
-  "Bluetooth Speaker":{ "✗ Ultimate Ears": "Ultimate Ears devices are not serviceable at this time." },
+  "Smart Watch":       { "✗ Apple Watch": "We don't service Apple Watches.", "✗ Garmin": "We don't service Garmin watches currently.", "✗ Other Brands": "We only service the brands listed above." },
+  "TWS / Earbuds":     { "✗ Apple AirPods": "We don't service Apple AirPods.", "✗ Samsung Galaxy Buds": "Samsung Galaxy Buds require proprietary parts — not serviceable.", "✗ Other Brands": "We only service the brands listed above." },
+  "Neckband":          { "✗ Other Brands": "We only service the brands listed above." },
+  "Headphones":        { "✗ Bang & Olufsen": "Bang & Olufsen devices require authorised service.", "✗ Other Brands": "We only service the brands listed above." },
+  "Bluetooth Speaker": { "✗ Ultimate Ears": "Ultimate Ears devices are not serviceable at this time.", "✗ Other Brands": "We only service the brands listed above." },
 };
 
 export function getCheckResult(
@@ -114,15 +115,6 @@ export function getCheckResult(
   brand: string,
   issue: string
 ): CheckResult {
-  // Unknown brand — not in our confirmed service list
-  if (brand.startsWith("?")) {
-    return {
-      type: "limited",
-      message: `Your brand isn't in our confirmed service list for ${category.toLowerCase()}s. We may or may not be able to help — WhatsApp us with your brand name and model and we'll let you know before you visit.`,
-      whatsapp: true,
-    };
-  }
-
   // Not serviceable brands (issue may be empty when skipping step)
   const notServ = NOT_SERVICEABLE[category]?.[brand];
   if (notServ) return { type: "no", reason: notServ };

@@ -21,7 +21,7 @@ export default function DeviceChecker() {
   const [brand, setBrand] = useState("");
   const [issue, setIssue] = useState("");
 
-  const result = category && brand && (issue || brand.startsWith("✗") || brand.startsWith("?"))
+  const result = category && brand && (issue || brand.startsWith("✗"))
     ? getCheckResult(category, brand, issue)
     : null;
 
@@ -107,26 +107,23 @@ export default function DeviceChecker() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {CHECKER_BRANDS[category].map((b) => {
                     const isUnsupported = b.startsWith("✗");
-                    const isUnknown = b.startsWith("?");
-                    const displayName = (isUnsupported || isUnknown) ? b.slice(2) : b;
+                    const displayName = isUnsupported ? b.slice(2) : b;
+                    const isOther = displayName === "Other Brands";
                     return (
                       <button
                         key={b}
-                        onClick={() => { setBrand(b); setIssue(""); setStep((isUnsupported || isUnknown) ? "result" : "issue"); }}
+                        onClick={() => { setBrand(b); setIssue(""); setStep(isUnsupported ? "result" : "issue"); }}
                         className={cn(
                           "flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-medium transition-all",
                           isUnsupported
                             ? "border-red-900/40 bg-red-950/20 text-red-400 hover:bg-red-950/40"
-                            : isUnknown
-                            ? "border-yellow-700/40 bg-yellow-950/20 text-yellow-400 hover:bg-yellow-950/40 col-span-2 sm:col-span-3"
-                            : "border-gray-700 bg-gray-800/50 text-gray-200 hover:border-blue-500 hover:bg-blue-500/10 hover:text-white"
+                            : "border-gray-700 bg-gray-800/50 text-gray-200 hover:border-blue-500 hover:bg-blue-500/10 hover:text-white",
+                          isOther && "col-span-2 sm:col-span-3"
                         )}
                       >
                         <span>{displayName}</span>
                         {isUnsupported
                           ? <XCircle className="w-4 h-4 flex-shrink-0" />
-                          : isUnknown
-                          ? <MessageCircle className="w-4 h-4 flex-shrink-0 text-yellow-500" />
                           : <ChevronRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
                         }
                       </button>
