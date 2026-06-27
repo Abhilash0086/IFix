@@ -262,7 +262,7 @@ export default function DeviceChecker() {
                         <MessageCircle className="w-4 h-4" /> WhatsApp for Quote
                       </a>
                       <a
-                        href="/#contact"
+                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand)}&issue=${encodeURIComponent(issue)}#contact`}
                         className="flex-1 flex items-center justify-center gap-2 border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white font-semibold py-3 rounded-xl transition-colors text-sm"
                       >
                         Fill Repair Form

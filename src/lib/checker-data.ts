@@ -124,7 +124,7 @@ export function getCheckResult(
   // Serviceable but no specific price
   return {
     type: "general",
-    message: `We service ${brand} ${category.toLowerCase()}s. WhatsApp us for an exact quote.`,
+    message: `We service ${brand} ${category}. WhatsApp us for an exact quote.`,
     whatsapp: true,
   };
 }
