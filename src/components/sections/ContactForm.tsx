@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
-import { Upload, Send, CheckCircle, Loader2, X, AlertCircle } from "lucide-react";
+import { Upload, Send, CheckCircle, Loader2, X, AlertCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DEVICE_CATEGORIES,
@@ -40,12 +40,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxxnU0goSHF5oNuZh7uvVtDDjLWSW4uBxNTCB1jSV893tquhRFqEYJdDvbg6DBklrZyA/exec";
 
 function ContactFormInner() {
   const searchParams = useSearchParams();
-  const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoError, setPhotoError] = useState(false);
@@ -56,22 +56,28 @@ function ContactFormInner() {
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  // Pre-fill from Quick Check or Service Page URL params
+  // Step 1: set category first so the brand/complaint selects mount
   useEffect(() => {
     const category = searchParams.get("category") as DeviceCategory | null;
-    const brand    = searchParams.get("brand");
-    const issue    = searchParams.get("issue");
-    const model    = searchParams.get("model");
     if (category && DEVICE_CATEGORIES.includes(category as DeviceCategory)) {
       setValue("deviceCategory", category);
     }
+  }, [searchParams, setValue]);
+
+  // Step 2: set brand/issue/model after category change causes selects to render
+  useEffect(() => {
+    if (!selectedCategory) return;
+    const brand = searchParams.get("brand");
+    const issue = searchParams.get("issue");
+    const model = searchParams.get("model");
     if (brand) setValue("brand", brand);
     if (issue) setValue("complaintType", issue);
     if (model) setValue("modelType", model);
-  }, [searchParams, setValue]);
+  }, [selectedCategory, searchParams, setValue]);
 
   const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
   const selectedComplaint = watch("complaintType");
@@ -93,6 +99,11 @@ function ContactFormInner() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
+
   const onSubmit = async (data: FormData) => {
     if (photoRequired && !photoFile) {
       setPhotoError(true);
@@ -104,29 +115,40 @@ function ContactFormInner() {
       const payload = new FormData();
       Object.entries(data).forEach(([k, v]) => v && payload.append(k, v as string));
       if (photoFile) payload.append("photo", photoFile);
-      await fetch(SCRIPT_URL, { method: "POST", body: payload });
-      setSubmitted(true);
+      await fetch(SCRIPT_URL, { method: "POST", body: payload, mode: "no-cors" });
+      showToast("Request received! We'll contact you within a few hours.", "success");
+      reset();
+      removePhoto();
     } catch {
-      alert("Something went wrong. Please WhatsApp us directly.");
+      showToast("Something went wrong. Please WhatsApp us directly.", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (submitted) {
-    return (
-      <div className="text-center">
-        <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-        <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
-        <p className="text-gray-400">We&apos;ll contact you within a few hours. Thank you!</p>
-      </div>
-    );
-  }
-
   const source    = searchParams.get("source"); // "checker" | "service" | null
   const prefilled = !!(searchParams.get("category") || searchParams.get("brand") || searchParams.get("issue") || searchParams.get("model"));
 
   return (
+    <>
+      {/* Toast */}
+      {toast && (
+        <div className={cn(
+          "fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl border text-sm font-medium max-w-sm",
+          "animate-in slide-in-from-bottom-4 fade-in duration-300",
+          toast.type === "success"
+            ? "bg-gray-900 border-green-500/40 text-green-300"
+            : "bg-gray-900 border-red-500/40 text-red-300"
+        )}>
+          {toast.type === "success"
+            ? <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+            : <XCircle className="w-5 h-5 text-red-400 flex-shrink-0" />}
+          <span>{toast.message}</span>
+          <button onClick={() => setToast(null)} className="ml-2 text-gray-500 hover:text-gray-300">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-5">
 
       {/* Pre-fill banner */}
@@ -278,6 +300,7 @@ function ContactFormInner() {
         {isLoading ? "Submitting..." : "Submit Repair Request"}
       </button>
     </form>
+    </>
   );
 }
 
