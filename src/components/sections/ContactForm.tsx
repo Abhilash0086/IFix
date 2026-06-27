@@ -126,9 +126,6 @@ function ContactFormInner() {
     }
   };
 
-  const source    = searchParams.get("source"); // "checker" | "service" | null
-  const prefilled = !!(searchParams.get("category") || searchParams.get("brand") || searchParams.get("issue") || searchParams.get("model"));
-
   return (
     <>
       {/* Toast */}
@@ -151,21 +148,8 @@ function ContactFormInner() {
       )}
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-5">
 
-      {/* Pre-fill banner */}
-      {prefilled && source === "checker" && (
-        <div className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-xl px-4 py-3 text-sm text-blue-300">
-          <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
-          Details from your Quick Check have been filled in. Review and complete the form below.
-        </div>
-      )}
-      {prefilled && source === "service" && (
-        <div className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-xl px-4 py-3 text-sm text-blue-300">
-          <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
-          Service details have been pre-filled from the pricing table. Complete the remaining fields below.
-        </div>
-      )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <Field label="Full Name *" error={errors.fullName?.message}>
           <input {...register("fullName")} placeholder="Your name" className={inputCls(!!errors.fullName)} />
         </Field>
