@@ -5,6 +5,7 @@ export const metadata = { title: "Bluetooth Speaker Repair Coimbatore | iFix Blu
 export default function BluetoothSpeakersPage() {
   return (
     <ServicePage
+      category="Bluetooth Speaker"
       title="Bluetooth Speaker Repair"
       subtitle="Portable & Home Bluetooth Speakers"
       description="No sound, charging failure, battery issues — we diagnose and repair all Bluetooth speaker brands with fast turnaround."

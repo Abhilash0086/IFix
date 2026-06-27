@@ -5,6 +5,7 @@ export const metadata = { title: "TWS Earbuds Repair Coimbatore | iFix Bluetooth
 export default function TWSEarbudsPage() {
   return (
     <ServicePage
+      category="TWS / Earbuds"
       title="TWS & Earbuds Repair"
       subtitle="True Wireless Earbuds"
       description="One side dead? Not pairing? Low volume? We repair all TWS earbuds — most repairs done within 24 hours."

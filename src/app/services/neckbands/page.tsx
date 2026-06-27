@@ -5,6 +5,7 @@ export const metadata = { title: "Neckband Repair Coimbatore | iFix Bluetooth" }
 export default function NeckbandsPage() {
   return (
     <ServicePage
+      category="Neckband"
       title="Neckband Repair"
       subtitle="Bluetooth Neckband Earphones"
       description="Wire cuts, dead drivers, charging issues, mic problems — all neckband repairs done in-store with fast turnaround."

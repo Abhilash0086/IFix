@@ -5,6 +5,7 @@ export const metadata = { title: "Headphone Repair Coimbatore | iFix Bluetooth" 
 export default function HeadphonesPage() {
   return (
     <ServicePage
+      category="Headphones"
       title="Headphone Repair"
       subtitle="Over-ear, On-ear & Boom Headsets"
       description="Wire issues, mic problems, USB/Type-C pin damage, physical damage — all headphone repairs done within 2 days."

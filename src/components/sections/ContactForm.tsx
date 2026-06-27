@@ -59,16 +59,18 @@ function ContactFormInner() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  // Pre-fill from Quick Check URL params
+  // Pre-fill from Quick Check or Service Page URL params
   useEffect(() => {
-    const category  = searchParams.get("category") as DeviceCategory | null;
-    const brand     = searchParams.get("brand");
-    const issue     = searchParams.get("issue");
+    const category = searchParams.get("category") as DeviceCategory | null;
+    const brand    = searchParams.get("brand");
+    const issue    = searchParams.get("issue");
+    const model    = searchParams.get("model");
     if (category && DEVICE_CATEGORIES.includes(category as DeviceCategory)) {
       setValue("deviceCategory", category);
     }
-    if (brand)  setValue("brand", brand);
-    if (issue)  setValue("complaintType", issue);
+    if (brand) setValue("brand", brand);
+    if (issue) setValue("complaintType", issue);
+    if (model) setValue("modelType", model);
   }, [searchParams, setValue]);
 
   const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
@@ -121,7 +123,7 @@ function ContactFormInner() {
     );
   }
 
-  const prefilled = !!(searchParams.get("category") || searchParams.get("brand") || searchParams.get("issue"));
+  const prefilled = !!(searchParams.get("category") || searchParams.get("brand") || searchParams.get("issue") || searchParams.get("model"));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-5">

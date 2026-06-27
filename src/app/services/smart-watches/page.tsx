@@ -5,6 +5,7 @@ export const metadata = { title: "Smart Watch Repair Coimbatore | iFix Bluetooth
 export default function SmartWatchesPage() {
   return (
     <ServicePage
+      category="Smart Watch"
       title="Smart Watch Repair"
       subtitle="Wearables & Fitness Trackers"
       description="Professional repair for all smart watch brands. Display, battery, charging, sensors — we fix it all with a 24-hour turnaround."
