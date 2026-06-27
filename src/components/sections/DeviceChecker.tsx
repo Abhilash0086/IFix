@@ -206,7 +206,7 @@ export default function DeviceChecker() {
 
                     <div className="flex flex-col sm:flex-row gap-3 pt-1">
                       <a
-                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand.replace("✗ ", ""))}&issue=${encodeURIComponent(issue)}#contact`}
+                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand.replace("✗ ", ""))}&issue=${encodeURIComponent(issue)}&source=checker#contact`}
                         className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
                       >
                         Book Repair Now
@@ -262,7 +262,7 @@ export default function DeviceChecker() {
                         <MessageCircle className="w-4 h-4" /> WhatsApp for Quote
                       </a>
                       <a
-                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand)}&issue=${encodeURIComponent(issue)}#contact`}
+                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand)}&issue=${encodeURIComponent(issue)}&source=checker#contact`}
                         className="flex-1 flex items-center justify-center gap-2 border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white font-semibold py-3 rounded-xl transition-colors text-sm"
                       >
                         Fill Repair Form

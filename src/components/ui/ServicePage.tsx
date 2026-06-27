@@ -28,7 +28,7 @@ export interface ServicePageProps {
 }
 
 function bookingUrl(category: DeviceCategory, brand: string, model: string) {
-  const params = new URLSearchParams({ category, brand, model });
+  const params = new URLSearchParams({ category, brand, model, source: "service" });
   return `/?${params.toString()}#contact`;
 }
 
