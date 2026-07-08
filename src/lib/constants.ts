@@ -37,7 +37,7 @@ export const COMPLAINT_TYPES: Record<DeviceCategory, string[]> = {
   "Smart Watch": [
     "Display not working", "Touch not responding", "Battery draining fast",
     "Charging not working", "Strap broken", "Button not working",
-    "Not connecting to phone", "Water damage", "Other",
+    "Not connecting to phone", "Other",
   ],
   "TWS / Earbuds": [
     "One side not working", "Both sides not working", "Case not charging",

@@ -26,7 +26,6 @@ export default function SmartWatchesPage() {
         "Touch screen not responding",
         "Bluetooth not connecting to phone",
         "Strap / band replacement",
-        "Water damage repair",
       ]}
       pricing={[
         {

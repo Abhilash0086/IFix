@@ -36,7 +36,6 @@ const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, Check
     Amazfit: {
       "Not turning on":        { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
       "Battery draining fast": { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
-      "Water damage":          { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
       "Charging not working":  { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
     },
     "Fire-Boltt": {

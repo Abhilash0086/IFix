@@ -12,7 +12,7 @@ const services = [
     priceFrom: "₹600",
     tat: "Within 24 hrs",
     accent: "purple",
-    issues: ["Not turning on / dead watch", "Battery draining fast", "Charging not working", "Water damage recovery", "Sensor & display issues"],
+    issues: ["Not turning on / dead watch", "Battery draining fast", "Charging not working", "Sensor & display issues", "Button not working"],
   },
   {
     icon: Ear,
