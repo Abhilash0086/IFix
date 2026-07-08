@@ -6,7 +6,7 @@ import { BUSINESS } from "@/lib/constants";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 bg-gray-50">
+    <section id="about" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-blue-600 text-sm font-medium uppercase tracking-widest">Who We Are</span>

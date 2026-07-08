@@ -53,7 +53,7 @@ function DeviceCard({ device }: { device: typeof devices[0] }) {
 
 export default function DeviceShowcase() {
   return (
-    <section className="py-16 bg-gray-50 overflow-hidden border-b border-gray-100">
+    <section className="py-16 bg-blue-50 overflow-hidden border-b border-blue-100">
       <div className="container mx-auto px-4 text-center mb-10">
         <span className="text-blue-600 text-sm font-medium uppercase tracking-widest">Devices We Repair</span>
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mt-2 mb-2">
@@ -71,8 +71,8 @@ export default function DeviceShowcase() {
           ))}
         </div>
         {/* Edge fades */}
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-blue-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-blue-50 to-transparent pointer-events-none z-10" />
       </div>
     </section>
   );

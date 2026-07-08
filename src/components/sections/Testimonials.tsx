@@ -43,7 +43,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-24 bg-gray-50 overflow-hidden">
+    <section id="testimonials" className="py-24 bg-amber-50 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -63,8 +63,8 @@ export default function Testimonials() {
             <ReviewCard key={`a-${i}`} review={review} />
           ))}
         </div>
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-amber-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-amber-50 to-transparent pointer-events-none z-10" />
       </div>
 
       <div className="relative">
@@ -73,8 +73,8 @@ export default function Testimonials() {
             <ReviewCard key={`b-${i}`} review={review} />
           ))}
         </div>
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-amber-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-amber-50 to-transparent pointer-events-none z-10" />
       </div>
     </section>
   );

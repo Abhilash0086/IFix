@@ -35,7 +35,7 @@ export default function DeviceChecker() {
   const stepIndex = { category: 0, brand: 1, issue: 2, result: 3 }[step];
 
   return (
-    <section id="checker" className="py-24 bg-white">
+    <section id="checker" className="py-24 bg-indigo-50">
       <div className="container mx-auto px-4 max-w-3xl">
         {/* Header */}
         <div className="text-center mb-10">
@@ -69,7 +69,7 @@ export default function DeviceChecker() {
         </div>
 
         {/* Step content */}
-        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 min-h-[320px] flex flex-col">
+        <div className="bg-white border border-indigo-100 rounded-2xl p-6 md:p-8 min-h-[320px] flex flex-col shadow-sm">
           <AnimatePresence mode="wait">
 
             {/* Step 1 — Category */}

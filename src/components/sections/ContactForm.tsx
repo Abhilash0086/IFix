@@ -378,7 +378,7 @@ function ContactFormInner() {
 
 export default function ContactForm() {
   return (
-    <section id="contact" className="py-24 bg-white">
+    <section id="contact" className="py-24 bg-blue-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <span className="text-blue-600 text-sm font-medium uppercase tracking-widest">Get In Touch</span>
