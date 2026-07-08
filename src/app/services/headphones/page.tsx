@@ -33,6 +33,7 @@ export default function HeadphonesPage() {
         {
           brand: "Jabra",
           model: "Evolve 20 / Evolve 40 / Evolve2 30 SE",
+          image: "/devices/Jabra Evolve 20.png",
           complaints: ["Wire issue", "Damage", "USB pin / Type-C pin issue", "Mic issue", "Speaker issue"],
           price: "₹499 – ₹999",
           time: "Within 2 days",

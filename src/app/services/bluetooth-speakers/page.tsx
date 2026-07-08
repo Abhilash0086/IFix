@@ -32,6 +32,7 @@ export default function BluetoothSpeakersPage() {
         {
           brand: "JBL",
           model: "Charge 5",
+          image: "/devices/JBL Charge 5.png",
           complaints: ["Not on", "Battery issue", "Backup issue", "Charging but not on"],
           price: "₹3,000",
           time: "Within 24 hrs",
@@ -39,6 +40,7 @@ export default function BluetoothSpeakersPage() {
         {
           brand: "JBL",
           model: "Boom Box 1",
+          image: "/devices/JBL Boom box 1.png",
           complaints: ["Not on", "Battery issue", "Backup issue", "Charging but not on"],
           price: "₹5,500",
           time: "Within 3 days",
@@ -53,6 +55,7 @@ export default function BluetoothSpeakersPage() {
         {
           brand: "Marshall",
           model: "Emberton 2",
+          image: "/devices/Marshall Emberton 2.png",
           complaints: ["Not on", "Battery issue", "Backup issue"],
           price: "₹2,200",
           time: "Within 2 days",
@@ -60,6 +63,7 @@ export default function BluetoothSpeakersPage() {
         {
           brand: "boAt",
           model: "Stone 1000",
+          image: "/devices/Boat Stone 1000.png",
           complaints: ["Not on — ₹750", "Backup issue — ₹750", "Charging pin — ₹380"],
           price: "Per issue\n(see complaints)",
           time: "Within 24 hrs",

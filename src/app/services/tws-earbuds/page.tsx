@@ -32,6 +32,7 @@ export default function TWSEarbudsPage() {
         {
           brand: "JBL",
           model: "230 NC / 235 NC",
+          image: "/devices/JBL Tws 230.png",
           complaints: ["Buds backup issue (R side or L side)", "Buds not on or pairing"],
           price: "Single side: ₹400\nBoth sides: ₹800",
           time: "Within 24 hrs",
@@ -39,6 +40,7 @@ export default function TWSEarbudsPage() {
         {
           brand: "JBL",
           model: "130 NC",
+          image: "/devices/JBL Tws 130.png",
           complaints: ["Buds backup issue (R side or L side)", "Buds not on or pairing"],
           price: "Single side: ₹400\nBoth sides: ₹800",
           time: "Within 24 hrs",
@@ -46,6 +48,7 @@ export default function TWSEarbudsPage() {
         {
           brand: "JBL",
           model: "Wave Beam",
+          image: "/devices/JBL wave beam.png",
           complaints: ["Buds backup issue (R side or L side)", "Buds not on or pairing"],
           price: "Single side: ₹350\nBoth sides: ₹650",
           time: "Within 24 hrs",
@@ -53,6 +56,7 @@ export default function TWSEarbudsPage() {
         {
           brand: "Sony",
           model: "WF-1000XM3",
+          image: "/devices/Sony WF 1000xm3.png",
           complaints: ["Buds backup issue (R side or L side)", "Buds not on or pairing"],
           price: "Single side: ₹400\nBoth sides: ₹800",
           time: "Within 24 hrs",
@@ -60,6 +64,7 @@ export default function TWSEarbudsPage() {
         {
           brand: "Sony",
           model: "WF-1000XM4",
+          image: "/devices/Sony WF 1000xm4.png",
           complaints: ["Buds backup issue (R side or L side)", "Buds not on or pairing"],
           price: "Single side: ₹460\nBoth sides: ₹920",
           time: "Within 24 hrs",

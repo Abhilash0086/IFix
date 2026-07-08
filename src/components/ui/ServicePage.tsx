@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CheckCircle, XCircle, ArrowRight, Clock, CalendarCheck } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -12,6 +13,7 @@ export interface PricingRow {
   time: string;
   note?: string;
   photoRequired?: boolean;
+  image?: string;
 }
 
 export interface ServicePageProps {
@@ -70,7 +72,16 @@ export default function ServicePage({
                     {pricing.map((row, i) => (
                       <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                         <td className="px-4 py-4 text-gray-900 font-medium align-top">{row.brand}</td>
-                        <td className="px-4 py-4 text-gray-700 align-top whitespace-nowrap">{row.model}</td>
+                        <td className="px-4 py-4 align-top whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            {row.image && (
+                              <div className="relative w-10 h-10 flex-shrink-0 rounded-lg border border-gray-100 bg-gray-50 overflow-hidden">
+                                <Image src={row.image} alt={row.model} fill className="object-contain p-0.5" />
+                              </div>
+                            )}
+                            <span className="text-gray-700">{row.model}</span>
+                          </div>
+                        </td>
                         <td className="px-4 py-4 align-top">
                           <ul className="space-y-1">
                             {row.complaints.map((c, j) => (

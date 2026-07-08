@@ -31,6 +31,7 @@ export default function SmartWatchesPage() {
         {
           brand: "Amazfit",
           model: "T Rex",
+          image: "/devices/Amazfit T Rex.png",
           complaints: ["Not on", "Battery issue", "Backup issue", "Charging but not on"],
           price: "₹850",
           time: "Within 24 hrs",
@@ -45,6 +46,7 @@ export default function SmartWatchesPage() {
         {
           brand: "Fire-Boltt",
           model: "Snapp",
+          image: "/devices/Fire Boltt Snapp.png",
           complaints: ["Not charging"],
           price: "₹600",
           time: "Within 24 hrs",
