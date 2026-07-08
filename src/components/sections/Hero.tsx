@@ -32,7 +32,7 @@ function Counter({ target, suffix, decimal }: { target: number; suffix: string; 
   }, [inView, target]);
 
   return (
-    <span ref={ref} className="text-white font-bold text-2xl tabular-nums">
+    <span ref={ref} className="text-gray-900 font-bold text-2xl tabular-nums">
       {decimal ? count.toFixed(1) : Math.floor(count)}{suffix}
     </span>
   );
@@ -40,11 +40,11 @@ function Counter({ target, suffix, decimal }: { target: number; suffix: string; 
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950 overflow-hidden">
+    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 overflow-hidden">
       {/* Background glow orbs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-200/60 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent" />
 
       <div className="relative container mx-auto px-4 py-24 text-center">
         <motion.div
@@ -56,7 +56,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-block bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm px-4 py-1.5 rounded-full mb-6"
+            className="inline-block bg-blue-100 border border-blue-200 text-blue-600 text-sm px-4 py-1.5 rounded-full mb-6 font-medium"
           >
             India&apos;s Trusted Bluetooth &amp; Neckband Repair Experts
           </motion.span>
@@ -65,11 +65,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+            className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight"
           >
             Expert Repair for All
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
               Bluetooth Devices
             </span>
           </motion.h1>
@@ -78,7 +78,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10"
+            className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-10"
           >
             Smart Watches, TWS Earbuds, Neckbands, Headphones & Speakers — professional
             diagnosis, genuine parts, warranty on every repair.
@@ -109,7 +109,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Glassmorphism stats bar */}
+        {/* Stats bar */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -121,16 +121,15 @@ export default function Hero() {
               key={label}
               whileHover={{ scale: 1.05, y: -4 }}
               transition={{ type: "spring", stiffness: 300 }}
-              className="relative bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md overflow-hidden group"
+              className="relative bg-white border border-gray-200 rounded-2xl p-4 shadow-sm overflow-hidden group hover:shadow-md hover:border-blue-200 transition-all"
             >
-              {/* Hover glow */}
-              <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors rounded-2xl" />
-              <Icon className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+              <div className="absolute inset-0 bg-blue-50/0 group-hover:bg-blue-50/60 transition-colors rounded-2xl" />
+              <Icon className="w-6 h-6 text-blue-600 mx-auto mb-2" />
               {value !== null
                 ? <Counter target={value!} suffix={suffix!} decimal={decimal} />
-                : <span className="text-white font-bold text-2xl">{display}</span>
+                : <span className="text-gray-900 font-bold text-2xl">{display}</span>
               }
-              <div className="text-gray-400 text-sm mt-1">{label}</div>
+              <div className="text-gray-500 text-sm mt-1">{label}</div>
             </motion.div>
           ))}
         </motion.div>
@@ -143,11 +142,11 @@ export default function Hero() {
         transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
       >
-        <span className="text-gray-600 text-xs">Scroll</span>
+        <span className="text-gray-400 text-xs">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.4 }}
-          className="w-0.5 h-6 bg-gradient-to-b from-gray-500 to-transparent rounded-full"
+          className="w-0.5 h-6 bg-gradient-to-b from-gray-300 to-transparent rounded-full"
         />
       </motion.div>
     </section>

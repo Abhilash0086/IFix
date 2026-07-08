@@ -35,15 +35,15 @@ export default function DeviceChecker() {
   const stepIndex = { category: 0, brand: 1, issue: 2, result: 3 }[step];
 
   return (
-    <section id="checker" className="py-24 bg-gradient-to-b from-gray-900 to-gray-950">
+    <section id="checker" className="py-24 bg-white">
       <div className="container mx-auto px-4 max-w-3xl">
         {/* Header */}
         <div className="text-center mb-10">
-          <span className="text-blue-400 text-sm font-medium uppercase tracking-widest">Quick Check</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-3">
+          <span className="text-blue-600 text-sm font-medium uppercase tracking-widest">Quick Check</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-3">
             Do We Fix Your Device?
           </h2>
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             Select your device, brand and issue — find out instantly if we service it and what it costs.
           </p>
         </div>
@@ -55,39 +55,39 @@ export default function DeviceChecker() {
               <div className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all",
                 i < stepIndex ? "bg-blue-600 text-white" :
-                i === stepIndex ? "bg-blue-500 text-white ring-4 ring-blue-500/20" :
-                "bg-gray-800 text-gray-500"
+                i === stepIndex ? "bg-blue-600 text-white ring-4 ring-blue-100" :
+                "bg-gray-100 text-gray-400"
               )}>
                 {i < stepIndex ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
               </div>
-              <span className={cn("text-xs hidden sm:block", i === stepIndex ? "text-white" : "text-gray-600")}>
+              <span className={cn("text-xs hidden sm:block", i === stepIndex ? "text-gray-900 font-medium" : "text-gray-400")}>
                 {label}
               </span>
-              {i < 3 && <ChevronRight className="w-4 h-4 text-gray-700" />}
+              {i < 3 && <ChevronRight className="w-4 h-4 text-gray-300" />}
             </div>
           ))}
         </div>
 
         {/* Step content */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 md:p-8 min-h-[320px] flex flex-col">
+        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 md:p-8 min-h-[320px] flex flex-col">
           <AnimatePresence mode="wait">
 
             {/* Step 1 — Category */}
             {step === "category" && (
               <motion.div key="category" {...fadeSlide}>
-                <p className="text-gray-400 text-sm mb-5">What type of device do you want to repair?</p>
+                <p className="text-gray-500 text-sm mb-5">What type of device do you want to repair?</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {CHECKER_CATEGORIES.map((cat) => (
                     <button
                       key={cat.label}
                       onClick={() => { setCategory(cat.label); setStep("brand"); }}
                       className={cn(
-                        "flex flex-col items-center gap-2 p-4 rounded-xl border bg-gradient-to-br text-center transition-all hover:scale-[1.03]",
-                        cat.color
+                        "flex flex-col items-center gap-2 p-4 rounded-xl border bg-white text-center transition-all hover:scale-[1.03] hover:shadow-md",
+                        cat.lightColor
                       )}
                     >
-                      <cat.icon className={cn("w-7 h-7", cat.iconColor)} />
-                      <span className="text-white text-sm font-medium leading-tight">{cat.label}</span>
+                      <cat.icon className={cn("w-7 h-7", cat.lightIconColor)} />
+                      <span className="text-gray-800 text-sm font-medium leading-tight">{cat.label}</span>
                     </button>
                   ))}
                 </div>
@@ -98,8 +98,8 @@ export default function DeviceChecker() {
             {step === "brand" && category && (
               <motion.div key="brand" {...fadeSlide} className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-400 text-sm">What brand is your {category.toLowerCase()}?</p>
-                  <button onClick={reset} className="text-gray-500 hover:text-gray-300 text-xs flex items-center gap-1">
+                  <p className="text-gray-500 text-sm">What brand is your {category.toLowerCase()}?</p>
+                  <button onClick={reset} className="text-gray-400 hover:text-gray-600 text-xs flex items-center gap-1">
                     <RotateCcw className="w-3 h-3" /> Start over
                   </button>
                 </div>
@@ -116,15 +116,15 @@ export default function DeviceChecker() {
                         className={cn(
                           "flex items-center justify-between px-4 py-3 rounded-xl border text-sm font-medium transition-all",
                           isUnsupported
-                            ? "border-red-900/40 bg-red-950/20 text-red-400 hover:bg-red-950/40"
-                            : "border-gray-700 bg-gray-800/50 text-gray-200 hover:border-blue-500 hover:bg-blue-500/10 hover:text-white",
+                            ? "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
+                            : "border-gray-200 bg-white text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700",
                           isOther && "col-span-2 sm:col-span-3"
                         )}
                       >
                         <span>{displayName}</span>
                         {isUnsupported
                           ? <XCircle className="w-4 h-4 flex-shrink-0" />
-                          : <ChevronRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                          : <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0" />
                         }
                       </button>
                     );
@@ -137,8 +137,8 @@ export default function DeviceChecker() {
             {step === "issue" && category && (
               <motion.div key="issue" {...fadeSlide} className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-400 text-sm">What&apos;s the issue with your device?</p>
-                  <button onClick={() => setStep("brand")} className="text-gray-500 hover:text-gray-300 text-xs flex items-center gap-1">
+                  <p className="text-gray-500 text-sm">What&apos;s the issue with your device?</p>
+                  <button onClick={() => setStep("brand")} className="text-gray-400 hover:text-gray-600 text-xs flex items-center gap-1">
                     <ChevronRight className="w-3 h-3 rotate-180" /> Back
                   </button>
                 </div>
@@ -148,10 +148,10 @@ export default function DeviceChecker() {
                     <button
                       key={iss}
                       onClick={() => { setIssue(iss); setStep("result"); }}
-                      className="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-700 bg-gray-800/50 text-gray-200 text-sm font-medium hover:border-blue-500 hover:bg-blue-500/10 hover:text-white transition-all text-left"
+                      className="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-medium hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-all text-left"
                     >
                       <span>{iss}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-500 flex-shrink-0 ml-2" />
+                      <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" />
                     </button>
                   ))}
                 </div>
@@ -162,44 +162,44 @@ export default function DeviceChecker() {
             {step === "result" && result && (
               <motion.div key="result" {...fadeSlide} className="flex flex-col gap-5">
                 {/* Breadcrumb */}
-                <div className="flex flex-wrap items-center gap-1.5 text-xs text-gray-500">
-                  <span className="bg-gray-800 px-2 py-1 rounded">{category}</span>
+                <div className="flex flex-wrap items-center gap-1.5 text-xs text-gray-400">
+                  <span className="bg-gray-100 px-2 py-1 rounded text-gray-600">{category}</span>
                   <ChevronRight className="w-3 h-3" />
-                  <span className="bg-gray-800 px-2 py-1 rounded">{brand.startsWith("✗") ? brand.slice(2) : brand}</span>
+                  <span className="bg-gray-100 px-2 py-1 rounded text-gray-600">{brand.startsWith("✗") ? brand.slice(2) : brand}</span>
                   <ChevronRight className="w-3 h-3" />
-                  <span className="bg-gray-800 px-2 py-1 rounded">{issue}</span>
+                  <span className="bg-gray-100 px-2 py-1 rounded text-gray-600">{issue}</span>
                 </div>
 
                 {/* Result card */}
                 {result.type === "exact" && (
-                  <div className="bg-green-900/20 border border-green-700/40 rounded-2xl p-6 space-y-4">
+                  <div className="bg-green-50 border border-green-200 rounded-2xl p-6 space-y-4">
                     <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-8 h-8 text-green-400 flex-shrink-0" />
+                      <CheckCircle2 className="w-8 h-8 text-green-600 flex-shrink-0" />
                       <div>
-                        <p className="text-green-400 font-bold text-lg">Yes, we fix this!</p>
-                        <p className="text-gray-400 text-sm">We&apos;ve repaired this exact issue before.</p>
+                        <p className="text-green-700 font-bold text-lg">Yes, we fix this!</p>
+                        <p className="text-gray-500 text-sm">We&apos;ve repaired this exact issue before.</p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-gray-800/60 rounded-xl p-4">
+                      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
                         <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-1">
                           <IndianRupee className="w-3.5 h-3.5" /> Estimated Cost
                         </div>
-                        <p className="text-white font-bold text-xl">{result.price}</p>
-                        {result.note && <p className="text-gray-500 text-xs mt-1">{result.note}</p>}
+                        <p className="text-gray-900 font-bold text-xl">{result.price}</p>
+                        {result.note && <p className="text-gray-400 text-xs mt-1">{result.note}</p>}
                       </div>
-                      <div className="bg-gray-800/60 rounded-xl p-4">
+                      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
                         <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-1">
                           <Clock className="w-3.5 h-3.5" /> Turnaround
                         </div>
-                        <p className="text-white font-bold text-lg">{result.time}</p>
+                        <p className="text-gray-900 font-bold text-lg">{result.time}</p>
                       </div>
                     </div>
 
                     {result.photoRequired && (
-                      <div className="flex items-start gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 text-sm text-amber-300">
-                        <Camera className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
+                      <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-700">
+                        <Camera className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-500" />
                         A photo of your device is required when booking this repair type.
                       </div>
                     )}
@@ -215,7 +215,7 @@ export default function DeviceChecker() {
                         href={`https://wa.me/${BUSINESS.whatsapp}?text=Hi, I need to repair my ${brand.replace("✗ ", "")} ${category} — Issue: ${issue}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 bg-green-700/30 hover:bg-green-700/50 border border-green-700/40 text-green-400 font-semibold py-3 rounded-xl transition-colors text-sm"
+                        className="flex-1 flex items-center justify-center gap-2 bg-green-50 hover:bg-green-100 border border-green-300 text-green-700 font-semibold py-3 rounded-xl transition-colors text-sm"
                       >
                         <MessageCircle className="w-4 h-4" /> WhatsApp Us
                       </a>
@@ -224,12 +224,12 @@ export default function DeviceChecker() {
                 )}
 
                 {result.type === "limited" && (
-                  <div className="bg-amber-900/20 border border-amber-700/40 rounded-2xl p-6 space-y-4">
+                  <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 space-y-4">
                     <div className="flex items-center gap-3">
-                      <AlertTriangle className="w-8 h-8 text-amber-400 flex-shrink-0" />
+                      <AlertTriangle className="w-8 h-8 text-amber-500 flex-shrink-0" />
                       <div>
-                        <p className="text-amber-400 font-bold text-lg">Brand Not in Our Service List</p>
-                        <p className="text-gray-400 text-sm mt-1">{result.message}</p>
+                        <p className="text-amber-700 font-bold text-lg">Brand Not in Our Service List</p>
+                        <p className="text-gray-500 text-sm mt-1">{result.message}</p>
                       </div>
                     </div>
                     <a
@@ -244,49 +244,49 @@ export default function DeviceChecker() {
                 )}
 
                 {result.type === "general" && (
-                  <div className="bg-blue-900/20 border border-blue-700/40 rounded-2xl p-6 space-y-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 space-y-4">
                     <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-8 h-8 text-blue-400 flex-shrink-0" />
+                      <CheckCircle2 className="w-8 h-8 text-blue-600 flex-shrink-0" />
                       <div>
-                        <p className="text-blue-400 font-bold text-lg">We can help!</p>
-                        <p className="text-gray-400 text-sm">{result.message}</p>
+                        <p className="text-blue-700 font-bold text-lg">We can help!</p>
+                        <p className="text-gray-500 text-sm">{result.message}</p>
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3 pt-1">
                       <a
+                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand)}&issue=${encodeURIComponent(issue)}&source=checker#contact`}
+                        className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+                      >
+                        Book Repair Now
+                      </a>
+                      <a
                         href={`https://wa.me/${BUSINESS.whatsapp}?text=Hi, I need to repair my ${brand.replace("✗ ", "")} ${category} — Issue: ${issue}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+                        className="flex-1 flex items-center justify-center gap-2 bg-green-50 hover:bg-green-100 border border-green-300 text-green-700 font-semibold py-3 rounded-xl transition-colors text-sm"
                       >
-                        <MessageCircle className="w-4 h-4" /> WhatsApp for Quote
-                      </a>
-                      <a
-                        href={`/?category=${encodeURIComponent(category!)}&brand=${encodeURIComponent(brand)}&issue=${encodeURIComponent(issue)}&source=checker#contact`}
-                        className="flex-1 flex items-center justify-center gap-2 border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white font-semibold py-3 rounded-xl transition-colors text-sm"
-                      >
-                        Fill Repair Form
+                        <MessageCircle className="w-4 h-4" /> WhatsApp Us
                       </a>
                     </div>
                   </div>
                 )}
 
                 {result.type === "no" && (
-                  <div className="bg-red-900/20 border border-red-700/40 rounded-2xl p-6 space-y-4">
+                  <div className="bg-red-50 border border-red-200 rounded-2xl p-6 space-y-4">
                     <div className="flex items-center gap-3">
-                      <XCircle className="w-8 h-8 text-red-400 flex-shrink-0" />
+                      <XCircle className="w-8 h-8 text-red-500 flex-shrink-0" />
                       <div>
-                        <p className="text-red-400 font-bold text-lg">Not Serviceable</p>
-                        <p className="text-gray-400 text-sm">{result.reason}</p>
+                        <p className="text-red-700 font-bold text-lg">Not Serviceable</p>
+                        <p className="text-gray-500 text-sm">{result.reason}</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2 bg-gray-800/50 rounded-xl px-4 py-3 text-sm text-gray-400">
+                    <div className="flex items-start gap-2 bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-600">
                       <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-yellow-500" />
                       We specialise in Indian and mid-range Bluetooth brands. Check our other services below.
                     </div>
                     <a
                       href="/#services"
-                      className="flex items-center justify-center gap-2 border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+                      className="flex items-center justify-center gap-2 border border-gray-300 hover:border-blue-400 text-gray-600 hover:text-blue-600 font-semibold py-3 rounded-xl transition-colors text-sm"
                     >
                       View All Services
                     </a>
@@ -295,7 +295,7 @@ export default function DeviceChecker() {
 
                 <button
                   onClick={reset}
-                  className="flex items-center justify-center gap-2 text-gray-500 hover:text-gray-300 text-sm transition-colors mx-auto"
+                  className="flex items-center justify-center gap-2 text-gray-400 hover:text-gray-600 text-sm transition-colors mx-auto"
                 >
                   <RotateCcw className="w-4 h-4" /> Check another device
                 </button>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Zap } from "lucide-react";
 import { BUSINESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -35,8 +35,8 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-gray-950/90 backdrop-blur-lg border-b border-gray-800/80 shadow-xl shadow-black/20"
-          : "bg-transparent"
+          ? "bg-white/95 backdrop-blur-lg border-b border-gray-200 shadow-sm"
+          : "bg-white/80 backdrop-blur-sm border-b border-gray-100"
       )}
     >
       <nav
@@ -46,11 +46,15 @@ export default function Navbar() {
         )}
       >
         <Link href="/" className="flex items-center gap-2 group">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 shadow-sm group-hover:bg-blue-700 transition-colors">
+            <Zap className="w-4 h-4 text-white" />
+          </div>
           <span className={cn(
-            "font-bold text-white transition-all duration-300",
-            shrink ? "text-base" : "text-lg"
+            "font-extrabold transition-all duration-300 tracking-tight",
+            shrink ? "text-xl" : "text-2xl"
           )}>
-            iFix <span className="text-blue-400">Bluetooth</span>
+            <span className="text-gray-900">iFix </span>
+            <span className="text-blue-600">Bluetooth</span>
             <span className="text-gray-400 text-sm font-normal hidden sm:inline"> & Neckband</span>
           </span>
         </Link>
@@ -60,19 +64,16 @@ export default function Navbar() {
             <a
               key={l.label}
               href={l.href}
-              className={cn(
-                "text-gray-300 hover:text-white transition-colors relative group",
-                shrink ? "text-sm" : "text-sm"
-              )}
+              className="text-gray-600 hover:text-gray-900 text-sm transition-colors relative group"
             >
               {l.label}
-              <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300" />
             </a>
           ))}
           <a
             href={`tel:${BUSINESS.phone}`}
             className={cn(
-              "flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 rounded-lg transition-all hover:shadow-lg hover:shadow-blue-600/30",
+              "flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 rounded-lg transition-all hover:shadow-md hover:shadow-blue-600/30",
               shrink ? "text-xs py-1.5" : "text-sm py-2"
             )}
           >
@@ -81,25 +82,25 @@ export default function Navbar() {
           </a>
         </div>
 
-        <button onClick={() => setOpen(!open)} className="md:hidden text-gray-300 hover:text-white transition-colors">
+        <button onClick={() => setOpen(!open)} className="md:hidden text-gray-600 hover:text-gray-900 transition-colors">
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-gray-950/95 backdrop-blur-lg border-b border-gray-800 px-4 pb-4 space-y-1">
+        <div className="md:hidden bg-white border-b border-gray-200 px-4 pb-4 space-y-1 shadow-lg">
           {navLinks.map((l) => (
             <a
               key={l.label}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block text-gray-300 hover:text-white hover:bg-white/5 py-2.5 px-3 rounded-lg text-sm transition-colors"
+              className="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 py-2.5 px-3 rounded-lg text-sm transition-colors"
             >
               {l.label}
             </a>
           ))}
-          <a href={`tel:${BUSINESS.phone}`} className="flex items-center gap-2 text-blue-400 text-sm py-2.5 px-3">
+          <a href={`tel:${BUSINESS.phone}`} className="flex items-center gap-2 text-blue-600 text-sm py-2.5 px-3 font-medium">
             <Phone className="w-4 h-4" /> {BUSINESS.phone}
           </a>
         </div>

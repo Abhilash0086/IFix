@@ -79,7 +79,6 @@ function ContactFormInner() {
   const photoRequired      = isPhotoRequired(selectedCategory, selectedComplaint);
   const isCourier          = deliveryMethod === "courier";
 
-  // Auto-switch to courier when a non-Coimbatore district is selected
   useEffect(() => {
     if (!selectedDistrict) return;
     if (selectedDistrict !== "Coimbatore") {
@@ -89,7 +88,6 @@ function ContactFormInner() {
     }
   }, [selectedDistrict, setValue]);
 
-  // Step 1: set category first so the brand/complaint selects mount
   useEffect(() => {
     const category = searchParams.get("category") as DeviceCategory | null;
     if (category && DEVICE_CATEGORIES.includes(category as DeviceCategory)) {
@@ -97,7 +95,6 @@ function ContactFormInner() {
     }
   }, [searchParams, setValue]);
 
-  // Step 2: set brand/issue/model after category change causes selects to render
   useEffect(() => {
     if (!selectedCategory) return;
     const brand = searchParams.get("brand");
@@ -156,245 +153,241 @@ function ContactFormInner() {
       {/* Toast */}
       {toast && (
         <div className={cn(
-          "fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl border text-sm font-medium max-w-sm",
+          "fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl border text-sm font-medium max-w-sm",
           "animate-in slide-in-from-bottom-4 fade-in duration-300",
           toast.type === "success"
-            ? "bg-gray-900 border-green-500/40 text-green-300"
-            : "bg-gray-900 border-red-500/40 text-red-300"
+            ? "bg-white border-green-300 text-green-700 shadow-green-100"
+            : "bg-white border-red-300 text-red-700 shadow-red-100"
         )}>
           {toast.type === "success"
-            ? <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-            : <XCircle className="w-5 h-5 text-red-400 flex-shrink-0" />}
+            ? <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+            : <XCircle className="w-5 h-5 text-red-500 flex-shrink-0" />}
           <span>{toast.message}</span>
-          <button onClick={() => setToast(null)} className="ml-2 text-gray-500 hover:text-gray-300">
+          <button onClick={() => setToast(null)} className="ml-2 text-gray-400 hover:text-gray-600">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-2xl p-8 space-y-5 shadow-sm">
 
-
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <Field label="Full Name *" error={errors.fullName?.message}>
-          <input {...register("fullName")} placeholder="Your name" className={inputCls(!!errors.fullName)} />
-        </Field>
-        <Field label="Mobile Number *" error={errors.mobile?.message}>
-          <input {...register("mobile")} placeholder="10-digit number" maxLength={10} className={inputCls(!!errors.mobile)} />
-        </Field>
-      </div>
-
-      <Field label="Email (optional)" error={errors.email?.message}>
-        <input {...register("email")} type="email" placeholder="you@example.com" className={inputCls(!!errors.email)} />
-      </Field>
-
-      <Field label="Device Category *" error={errors.deviceCategory?.message}>
-        <select {...register("deviceCategory")} className={inputCls(!!errors.deviceCategory)}>
-          <option value="">Select category</option>
-          {DEVICE_CATEGORIES.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-      </Field>
-
-      {selectedCategory && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <Field label="Complaint Type *" error={errors.complaintType?.message}>
-            <select {...register("complaintType")} className={inputCls(!!errors.complaintType)}>
-              <option value="">Select complaint</option>
-              {COMPLAINT_TYPES[selectedCategory]?.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
+          <Field label="Full Name *" error={errors.fullName?.message}>
+            <input {...register("fullName")} placeholder="Your name" className={inputCls(!!errors.fullName)} />
           </Field>
-          <Field label="Brand *" error={errors.brand?.message}>
-            <select {...register("brand")} className={inputCls(!!errors.brand)}>
-              <option value="">Select brand</option>
-              {BRANDS[selectedCategory]?.map((b) => (
-                <option key={b} value={b}>{b}</option>
-              ))}
-            </select>
+          <Field label="Mobile Number *" error={errors.mobile?.message}>
+            <input {...register("mobile")} placeholder="10-digit number" maxLength={10} className={inputCls(!!errors.mobile)} />
           </Field>
         </div>
-      )}
 
-      <Field label="Model (optional)">
-        <input {...register("modelType")} placeholder="e.g. boAt Airdopes 141" className={inputCls(false)} />
-      </Field>
+        <Field label="Email (optional)" error={errors.email?.message}>
+          <input {...register("email")} type="email" placeholder="you@example.com" className={inputCls(!!errors.email)} />
+        </Field>
 
-      <Field label="District *" error={errors.district?.message}>
-        <select {...register("district")} className={inputCls(!!errors.district)}>
-          <option value="">Select district</option>
-          {TN_DISTRICTS.map((d) => (
-            <option key={d} value={d}>{d}</option>
-          ))}
-        </select>
-      </Field>
+        <Field label="Device Category *" error={errors.deviceCategory?.message}>
+          <select {...register("deviceCategory")} className={inputCls(!!errors.deviceCategory)}>
+            <option value="">Select category</option>
+            {DEVICE_CATEGORIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </Field>
 
-      {/* Delivery method — only show after district is selected */}
-      {selectedDistrict && (
-        <div className="space-y-3">
-          <label className="block text-sm font-medium text-gray-300">Device Return *</label>
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => setValue("deliveryMethod", "pickup")}
-              className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
-                !isCourier
-                  ? "bg-blue-600/20 border-blue-500 text-white"
-                  : "bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-500"
-              )}
-            >
-              <Store className="w-4 h-4 flex-shrink-0" />
-              <span>I&apos;ll pick up from store</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setValue("deliveryMethod", "courier")}
-              className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
-                isCourier
-                  ? "bg-blue-600/20 border-blue-500 text-white"
-                  : "bg-gray-800/50 border-gray-700 text-gray-400 hover:border-gray-500"
-              )}
-            >
-              <Package className="w-4 h-4 flex-shrink-0" />
-              <span>Courier it to me</span>
-            </button>
+        {selectedCategory && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <Field label="Complaint Type *" error={errors.complaintType?.message}>
+              <select {...register("complaintType")} className={inputCls(!!errors.complaintType)}>
+                <option value="">Select complaint</option>
+                {COMPLAINT_TYPES[selectedCategory]?.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Brand *" error={errors.brand?.message}>
+              <select {...register("brand")} className={inputCls(!!errors.brand)}>
+                <option value="">Select brand</option>
+                {BRANDS[selectedCategory]?.map((b) => (
+                  <option key={b} value={b}>{b}</option>
+                ))}
+              </select>
+            </Field>
           </div>
-          {/* Hidden register field */}
-          <input type="hidden" {...register("deliveryMethod")} />
+        )}
 
-          {/* Courier address fields */}
-          {isCourier && (
-            <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4 space-y-4">
-              <p className="text-blue-300 text-xs flex items-center gap-2">
-                <Package className="w-3.5 h-3.5" />
-                We&apos;ll courier your repaired device to this address.
+        <Field label="Model (optional)">
+          <input {...register("modelType")} placeholder="e.g. boAt Airdopes 141" className={inputCls(false)} />
+        </Field>
+
+        <Field label="District *" error={errors.district?.message}>
+          <select {...register("district")} className={inputCls(!!errors.district)}>
+            <option value="">Select district</option>
+            {TN_DISTRICTS.map((d) => (
+              <option key={d} value={d}>{d}</option>
+            ))}
+          </select>
+        </Field>
+
+        {selectedDistrict && (
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">Device Return *</label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setValue("deliveryMethod", "pickup")}
+                className={cn(
+                  "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
+                  !isCourier
+                    ? "bg-blue-50 border-blue-500 text-blue-700"
+                    : "bg-white border-gray-200 text-gray-500 hover:border-gray-400"
+                )}
+              >
+                <Store className="w-4 h-4 flex-shrink-0" />
+                <span>I&apos;ll pick up from store</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setValue("deliveryMethod", "courier")}
+                className={cn(
+                  "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
+                  isCourier
+                    ? "bg-blue-50 border-blue-500 text-blue-700"
+                    : "bg-white border-gray-200 text-gray-500 hover:border-gray-400"
+                )}
+              >
+                <Package className="w-4 h-4 flex-shrink-0" />
+                <span>Courier it to me</span>
+              </button>
+            </div>
+            <input type="hidden" {...register("deliveryMethod")} />
+
+            {isCourier && (
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-4">
+                <p className="text-blue-600 text-xs flex items-center gap-2">
+                  <Package className="w-3.5 h-3.5" />
+                  We&apos;ll courier your repaired device to this address.
+                </p>
+                <Field label="Full Delivery Address *" error={errors.returnAddress?.message}>
+                  <textarea
+                    {...register("returnAddress")}
+                    rows={2}
+                    placeholder="Door no, Street, Area, City"
+                    className={cn(inputCls(!!errors.returnAddress), "resize-none")}
+                  />
+                </Field>
+                <Field label="Pincode *" error={errors.returnPincode?.message}>
+                  <input
+                    {...register("returnPincode")}
+                    placeholder="6-digit pincode"
+                    maxLength={6}
+                    className={inputCls(!!errors.returnPincode)}
+                  />
+                </Field>
+              </div>
+            )}
+
+            {!isCourier && selectedDistrict !== "Coimbatore" && (
+              <p className="text-amber-600 text-xs flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                You selected a district outside Coimbatore. Are you sure you want store pickup?
               </p>
-              <Field label="Full Delivery Address *" error={errors.returnAddress?.message}>
-                <textarea
-                  {...register("returnAddress")}
-                  rows={2}
-                  placeholder="Door no, Street, Area, City"
-                  className={cn(inputCls(!!errors.returnAddress), "resize-none")}
-                />
-              </Field>
-              <Field label="Pincode *" error={errors.returnPincode?.message}>
-                <input
-                  {...register("returnPincode")}
-                  placeholder="6-digit pincode"
-                  maxLength={6}
-                  className={inputCls(!!errors.returnPincode)}
-                />
-              </Field>
+            )}
+          </div>
+        )}
+
+        <Field label="Remarks (optional)">
+          <textarea
+            {...register("remarks")}
+            rows={3}
+            placeholder="Describe the issue in detail..."
+            className={cn(inputCls(false), "resize-none")}
+          />
+        </Field>
+
+        {/* Photo upload */}
+        <div>
+          <label className="block text-sm mb-2">
+            <span className={cn("font-medium", photoRequired ? "text-amber-600" : "text-gray-700")}>
+              Device Photo {photoRequired ? "*" : "(optional)"}
+            </span>
+            {photoRequired && (
+              <span className="ml-2 text-xs bg-amber-50 border border-amber-200 text-amber-600 px-2 py-0.5 rounded-full">
+                Required for this repair type
+              </span>
+            )}
+          </label>
+
+          {photoRequired && !photoFile && (
+            <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-3">
+              <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+              <p className="text-amber-700 text-sm">
+                A photo of your device is required for this repair type so we can assess the damage and give you an accurate quote.
+              </p>
             </div>
           )}
 
-          {!isCourier && selectedDistrict && selectedDistrict !== "Coimbatore" && (
-            <p className="text-amber-400 text-xs flex items-center gap-1.5">
-              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-              You selected a district outside Coimbatore. Are you sure you want store pickup?
+          <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
+
+          {photoPreview ? (
+            <div className="relative inline-block">
+              <img src={photoPreview} alt="Device" className="h-32 rounded-xl object-cover border border-gray-200" />
+              <button
+                type="button"
+                onClick={removePhoto}
+                className="absolute -top-2 -right-2 bg-white border border-gray-200 rounded-full p-1 text-gray-400 hover:text-gray-700 shadow-sm"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => { setPhotoError(false); fileInputRef.current?.click(); }}
+              className={cn(
+                "flex items-center gap-2 border border-dashed rounded-xl px-4 py-3 text-sm transition-colors",
+                photoError
+                  ? "border-red-400 text-red-500 bg-red-50"
+                  : photoRequired
+                  ? "border-amber-400 hover:border-amber-500 text-amber-600 hover:bg-amber-50"
+                  : "border-gray-300 hover:border-blue-400 text-gray-400 hover:text-blue-600"
+              )}
+            >
+              <Upload className="w-4 h-4" />
+              {photoRequired ? "Upload device photo (required)" : "Upload photo"}
+            </button>
+          )}
+
+          {photoError && (
+            <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
+              <AlertCircle className="w-3.5 h-3.5" />
+              Please upload a photo of your device to continue.
             </p>
           )}
         </div>
-      )}
 
-      <Field label="Remarks (optional)">
-        <textarea
-          {...register("remarks")}
-          rows={3}
-          placeholder="Describe the issue in detail..."
-          className={cn(inputCls(false), "resize-none")}
-        />
-      </Field>
-
-      {/* Photo upload */}
-      <div>
-        <label className="block text-sm mb-2">
-          <span className={cn("font-medium", photoRequired ? "text-amber-400" : "text-gray-300")}>
-            Device Photo {photoRequired ? "*" : "(optional)"}
-          </span>
-          {photoRequired && (
-            <span className="ml-2 text-xs bg-amber-500/10 border border-amber-500/30 text-amber-400 px-2 py-0.5 rounded-full">
-              Required for this repair type
-            </span>
-          )}
-        </label>
-
-        {photoRequired && !photoFile && (
-          <div className="flex items-start gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 mb-3">
-            <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-            <p className="text-amber-300 text-sm">
-              A photo of your device is required for this repair type so we can assess the damage and give you an accurate quote.
-            </p>
-          </div>
-        )}
-
-        <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
-
-        {photoPreview ? (
-          <div className="relative inline-block">
-            <img src={photoPreview} alt="Device" className="h-32 rounded-xl object-cover border border-gray-700" />
-            <button
-              type="button"
-              onClick={removePhoto}
-              className="absolute -top-2 -right-2 bg-gray-800 rounded-full p-1 text-gray-400 hover:text-white"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => { setPhotoError(false); fileInputRef.current?.click(); }}
-            className={cn(
-              "flex items-center gap-2 border border-dashed rounded-xl px-4 py-3 text-sm transition-colors",
-              photoError
-                ? "border-red-500 text-red-400 bg-red-500/5"
-                : photoRequired
-                ? "border-amber-500/50 hover:border-amber-400 text-amber-400 hover:bg-amber-500/5"
-                : "border-gray-600 hover:border-blue-500 text-gray-400 hover:text-blue-400"
-            )}
-          >
-            <Upload className="w-4 h-4" />
-            {photoRequired ? "Upload device photo (required)" : "Upload photo"}
-          </button>
-        )}
-
-        {photoError && (
-          <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
-            <AlertCircle className="w-3.5 h-3.5" />
-            Please upload a photo of your device to continue.
-          </p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-4 rounded-xl transition-colors"
-      >
-        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-        {isLoading ? "Submitting..." : "Submit Repair Request"}
-      </button>
-    </form>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-4 rounded-xl transition-colors shadow-sm hover:shadow-md hover:shadow-blue-600/20"
+        >
+          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+          {isLoading ? "Submitting..." : "Submit Repair Request"}
+        </button>
+      </form>
     </>
   );
 }
 
 export default function ContactForm() {
   return (
-    <section id="contact" className="py-24 bg-gray-950">
+    <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <span className="text-blue-400 text-sm font-medium uppercase tracking-widest">Get In Touch</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">Book a Repair</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <span className="text-blue-600 text-sm font-medium uppercase tracking-widest">Get In Touch</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-4">Book a Repair</h2>
+          <p className="text-gray-500 max-w-xl mx-auto">
             Fill in the form and we&apos;ll get back to you with a diagnosis and quote.
           </p>
         </div>
-        <Suspense fallback={<div className="max-w-2xl mx-auto h-96 bg-gray-900 border border-gray-800 rounded-2xl animate-pulse" />}>
+        <Suspense fallback={<div className="max-w-2xl mx-auto h-96 bg-gray-50 border border-gray-200 rounded-2xl animate-pulse" />}>
           <ContactFormInner />
         </Suspense>
       </div>
@@ -405,16 +398,16 @@ export default function ContactForm() {
 function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-sm text-gray-300 mb-1.5">{label}</label>
+      <label className="block text-sm text-gray-700 mb-1.5 font-medium">{label}</label>
       {children}
-      {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 }
 
 function inputCls(hasError: boolean) {
   return cn(
-    "w-full bg-gray-800 border rounded-xl px-4 py-3 text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition",
-    hasError ? "border-red-500" : "border-gray-700"
+    "w-full bg-white border rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition",
+    hasError ? "border-red-400" : "border-gray-300"
   );
 }

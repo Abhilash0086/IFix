@@ -14,13 +14,12 @@ const reviews = [
   { name: "Selvi R.",   location: "Ukkadam",          rating: 5, text: "Fire-Boltt watch was not charging at all. They repaired it the same day. Very happy with the service.",                        device: "Fire-Boltt Snapp" },
 ];
 
-// Duplicate for seamless infinite scroll
 const doubled = [...reviews, ...reviews];
 
 function ReviewCard({ review }: { review: typeof reviews[0] }) {
   return (
-    <div className="w-80 shrink-0 bg-gray-800/60 border border-gray-700/50 rounded-2xl p-6 mx-3 backdrop-blur-sm relative overflow-hidden group">
-      <div className="absolute top-4 right-4 text-gray-700 group-hover:text-gray-600 transition-colors">
+    <div className="w-80 shrink-0 bg-white border border-gray-200 rounded-2xl p-6 mx-3 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+      <div className="absolute top-4 right-4 text-gray-200 group-hover:text-gray-300 transition-colors">
         <Quote className="w-8 h-8" />
       </div>
       <div className="flex gap-1 mb-3">
@@ -28,13 +27,13 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
           <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
         ))}
       </div>
-      <p className="text-gray-300 text-sm mb-5 leading-relaxed">&ldquo;{review.text}&rdquo;</p>
+      <p className="text-gray-600 text-sm mb-5 leading-relaxed">&ldquo;{review.text}&rdquo;</p>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-white font-semibold text-sm">{review.name}</p>
-          <p className="text-gray-500 text-xs">{review.location}</p>
+          <p className="text-gray-900 font-semibold text-sm">{review.name}</p>
+          <p className="text-gray-400 text-xs">{review.location}</p>
         </div>
-        <span className="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded-full whitespace-nowrap">
+        <span className="text-xs text-blue-600 bg-blue-50 border border-blue-200 px-2 py-1 rounded-full whitespace-nowrap">
           {review.device}
         </span>
       </div>
@@ -44,7 +43,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-24 bg-gray-900 overflow-hidden">
+    <section id="testimonials" className="py-24 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,33 +51,30 @@ export default function Testimonials() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <span className="text-blue-400 text-sm font-medium uppercase tracking-widest">Customer Reviews</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">What Our Customers Say</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">Real feedback from customers across Coimbatore.</p>
+          <span className="text-blue-600 text-sm font-medium uppercase tracking-widest">Customer Reviews</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-4">What Our Customers Say</h2>
+          <p className="text-gray-500 max-w-xl mx-auto">Real feedback from customers across Coimbatore.</p>
         </motion.div>
       </div>
 
-      {/* Marquee row 1 — left to right */}
       <div className="relative mb-4">
         <div className="flex marquee-left">
           {doubled.map((review, i) => (
             <ReviewCard key={`a-${i}`} review={review} />
           ))}
         </div>
-        {/* Edge fades */}
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-900 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-900 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10" />
       </div>
 
-      {/* Marquee row 2 — right to left */}
       <div className="relative">
         <div className="flex marquee-right">
           {doubled.slice().reverse().map((review, i) => (
             <ReviewCard key={`b-${i}`} review={review} />
           ))}
         </div>
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-900 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-900 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none z-10" />
       </div>
     </section>
   );
