@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import DeviceShowcase from "@/components/sections/DeviceShowcase";
 import DeviceChecker from "@/components/sections/DeviceChecker";
 import Services from "@/components/sections/Services";
 import Process from "@/components/sections/Process";
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <DeviceShowcase />
         <DeviceChecker />
         <Services />
         <Process />
