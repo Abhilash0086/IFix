@@ -41,10 +41,10 @@ const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, Check
     Amazfit: {
       "Not turning on":        { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
       "Battery draining fast": { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
-      "Charging not working":  { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
+      "Not Charging":  { type: "exact", price: "₹850 – ₹950", time: "Within 24 hrs" },
     },
     "Fire-Boltt": {
-      "Charging not working": { type: "exact", price: "₹600", time: "Within 24 hrs" },
+      "Not Charging": { type: "exact", price: "₹600", time: "Within 24 hrs" },
     },
   },
   "TWS / Earbuds": {
@@ -61,7 +61,7 @@ const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, Check
   },
   "Headphones": {
     Jabra: {
-      "Charging not working":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Not Charging":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
       "Physical damage":       { type: "exact", price: "₹499 – ₹999", time: "Within 2 days", photoRequired: true },
       "Mic not working":       { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
       "One side not working":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
@@ -72,7 +72,7 @@ const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, Check
       "No sound":                  { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
       "Battery issue":             { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
       "Distorted sound":           { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
-      "Charging not working":      { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
+      "Not Charging":      { type: "exact", price: "₹3,000 – ₹6,000", time: "Within 24 hrs – 3 days", note: "Varies by model" },
     },
     Marshall: {
       "No sound":            { type: "exact", price: "₹2,200", time: "Within 2 days" },
