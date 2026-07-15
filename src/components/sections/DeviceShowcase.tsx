@@ -10,10 +10,12 @@ const devices = [
   { image: "/devices/Fire Boltt Snapp.png",     brand: "Fire-Boltt", model: "Snapp",          category: "Smart Watch"       },
   { image: "/devices/JBL Tws 130.png",          brand: "JBL",        model: "TWS 130 NC",     category: "TWS / Earbuds"     },
   { image: "/devices/JBL Tws 230.png",          brand: "JBL",        model: "TWS 230 NC",     category: "TWS / Earbuds"     },
+  { image: "/devices/TWS.png",                  brand: "boAt",       model: "Airdopes",       category: "TWS / Earbuds"     },
   { image: "/devices/JBL wave beam.png",        brand: "JBL",        model: "Wave Beam",      category: "TWS / Earbuds"     },
   { image: "/devices/Sony WF 1000xm3.png",      brand: "Sony",       model: "WF-1000XM3",     category: "TWS / Earbuds"     },
   { image: "/devices/Sony WF 1000xm4.png",      brand: "Sony",       model: "WF-1000XM4",     category: "TWS / Earbuds"     },
   { image: "/devices/Jabra Evolve 20.png",      brand: "Jabra",      model: "Evolve 20",      category: "Headphones"        },
+  { image: "/devices/Damaged Headset.png",      brand: "All Brands", model: "Headset Repair", category: "Headphones"        },
   { image: "/devices/JBL Charge 5.png",         brand: "JBL",        model: "Charge 5",       category: "Bluetooth Speaker" },
   { image: "/devices/JBL Boom box 1.png",       brand: "JBL",        model: "Boombox 1",      category: "Bluetooth Speaker" },
   { image: "/devices/Marshall Emberton 2.png",  brand: "Marshall",   model: "Emberton II",    category: "Bluetooth Speaker" },
@@ -70,7 +72,7 @@ export default function DeviceShowcase() {
                 className={`bg-white border border-gray-200 ${style.border} rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col`}
               >
                 {/* Image */}
-                <div className="relative w-full h-32 mb-3">
+                <div className="relative w-full h-32 mb-3 overflow-hidden rounded-lg">
                   <Image
                     src={device.image}
                     alt={`${device.brand} ${device.model}`}
@@ -78,24 +80,15 @@ export default function DeviceShowcase() {
                     className="object-contain"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
-                  {/* Stamp overlay */}
-                  <div className="absolute bottom-0 right-0 w-16 h-16 flex items-center justify-center rotate-12 pointer-events-none select-none">
-                    <div className="w-full h-full rounded-full border-[2.5px] border-dashed border-green-600/50 bg-white/60 flex flex-col items-center justify-center">
-                      <span className="text-green-700 font-black text-[8px] uppercase tracking-tight leading-none">We</span>
-                      <span className="text-green-700 font-black text-[8px] uppercase tracking-tight leading-none">Fix</span>
-                      <span className="text-green-700 font-black text-[8px] uppercase tracking-tight leading-none">This</span>
-                    </div>
+                  {/* Slanting ribbon — top-left corner */}
+                  <div className="absolute -top-1 -left-8 w-28 flex items-center justify-center bg-green-600 text-white text-[9px] font-bold uppercase tracking-widest py-1 -rotate-45 shadow-sm pointer-events-none select-none">
+                    Serviceable
                   </div>
                 </div>
 
                 {/* Info */}
                 <p className="text-gray-900 font-semibold text-sm text-center leading-tight">{device.brand}</p>
-                <p className="text-gray-500 text-xs text-center mt-0.5 mb-2">{device.model}</p>
-                <div className="flex justify-center mb-4">
-                  <span className={`text-xs px-2.5 py-0.5 rounded-full border font-medium ${style.pill}`}>
-                    {device.category}
-                  </span>
-                </div>
+                <p className="text-gray-500 text-xs text-center mt-0.5 mb-4">{device.model}</p>
 
                 {/* Buttons */}
                 <div className="mt-auto flex flex-col gap-2">
