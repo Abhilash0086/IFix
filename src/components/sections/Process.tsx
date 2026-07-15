@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { ClipboardList, Search, IndianRupee, Wrench, CheckCircle, Truck } from "lucide-react";
 
 const steps = [
-  { icon: ClipboardList, step: "01", title: "Submit Request",  desc: "Fill the repair form or WhatsApp us with your device details and issue.", color: "text-blue-600",   bg: "bg-blue-50 border-blue-200" },
+  { icon: ClipboardList, step: "01", title: "Submit Request",  desc: "Fill the repair form with your device details and issue.", color: "text-blue-600",   bg: "bg-blue-50 border-blue-200" },
   { icon: Search,        step: "02", title: "Diagnosis",       desc: "Our technician inspects the device and identifies the root cause.",       color: "text-purple-600", bg: "bg-purple-50 border-purple-200" },
   { icon: IndianRupee,   step: "03", title: "Cost Estimate",   desc: "We share a transparent quote — no hidden charges, you decide to proceed.", color: "text-cyan-600",   bg: "bg-cyan-50 border-cyan-200" },
   { icon: Wrench,        step: "04", title: "Repair",          desc: "Skilled repair using quality components with careful handling.",           color: "text-green-600",  bg: "bg-green-50 border-green-200" },
