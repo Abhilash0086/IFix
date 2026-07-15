@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { MessageCircle, Wrench, Shield, Clock, Star } from "lucide-react";
+import { MessageCircle, Wrench, Shield, Star, Truck, SearchCheck } from "lucide-react";
 import { BUSINESS } from "@/lib/constants";
 
 const stats = [
-  { icon: Wrench, value: 5000, suffix: "+", label: "Repairs Done" },
-  { icon: Star,   value: 4.9,  suffix: "★", label: "Customer Rating", decimal: true },
-  { icon: Clock,  value: null, display: "Same Day", label: "Service Available" },
-  { icon: Shield, value: null, display: "30-Day",   label: "Repair Warranty" },
+  { icon: Wrench,      value: 5000, suffix: "+", label: "Repairs Done" },
+  { icon: Star,        value: 4.9,  suffix: "★", label: "Customer Rating", decimal: true },
+  { icon: Shield,      value: null, display: "30-Day",    label: "Repair Warranty" },
+  { icon: Truck,       value: null, display: "All India",  label: "Courier Pickup & Delivery" },
+  { icon: SearchCheck, value: null, display: "Free",       label: "Diagnosis & Transparent Pricing" },
 ];
 
 function Counter({ target, suffix, decimal }: { target: number; suffix: string; decimal?: boolean }) {
@@ -45,6 +47,20 @@ export default function Hero() {
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-200/60 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent" />
+
+      {/* Background device images */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 opacity-[0.07] pointer-events-none select-none hidden md:block">
+        <Image src="/devices/Amazfit T Rex.png" alt="" fill className="object-contain" />
+      </div>
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-72 h-72 opacity-[0.07] pointer-events-none select-none hidden md:block">
+        <Image src="/devices/JBL Charge 5.png" alt="" fill className="object-contain" />
+      </div>
+      <div className="absolute left-1/4 bottom-8 w-44 h-44 opacity-[0.05] pointer-events-none select-none hidden lg:block">
+        <Image src="/devices/Sony WF 1000xm4.png" alt="" fill className="object-contain" />
+      </div>
+      <div className="absolute right-1/4 top-8 w-44 h-44 opacity-[0.05] pointer-events-none select-none hidden lg:block">
+        <Image src="/devices/Jabra Evolve 20.png" alt="" fill className="object-contain" />
+      </div>
 
       <div className="relative container mx-auto px-4 py-24 text-center">
         <motion.div
@@ -114,7 +130,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-4xl mx-auto"
         >
           {stats.map(({ icon: Icon, value, suffix, label, display, decimal }) => (
             <motion.div
