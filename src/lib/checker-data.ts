@@ -3,7 +3,7 @@ import { COMPLAINT_TYPES } from "./constants";
 export const CHECKER_CATEGORIES = [
   { label: "Smart Watch",       image: "/devices/Amazfit T Rex.png",      bg: "bg-purple-50", lightColor: "border-purple-200 hover:border-purple-400" },
   { label: "TWS / Earbuds",     image: "/devices/TWS.png",                bg: "bg-blue-50",   lightColor: "border-blue-200 hover:border-blue-400"     },
-  { label: "Neckband",          image: "/categories/neckband.jpg",        bg: "bg-cyan-50",   lightColor: "border-cyan-200 hover:border-cyan-400"     },
+  { label: "Neckband",          image: "/categories/neckband.png",        bg: "bg-cyan-50",   lightColor: "border-cyan-200 hover:border-cyan-400"     },
   { label: "Headphones",        image: "/devices/Jabra Evolve 20.png",    bg: "bg-green-50",  lightColor: "border-green-200 hover:border-green-400"   },
   { label: "Bluetooth Speaker", image: "/devices/JBL Charge 5.png",       bg: "bg-orange-50", lightColor: "border-orange-200 hover:border-orange-400" },
 ] as const;
