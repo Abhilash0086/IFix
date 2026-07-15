@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
-import { Upload, Send, CheckCircle, Loader2, X, AlertCircle, XCircle, Package, Store } from "lucide-react";
+import { Upload, Send, CheckCircle, Loader2, X, AlertCircle, XCircle, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DEVICE_CATEGORIES,
   COMPLAINT_TYPES,
   BRANDS,
-  TN_DISTRICTS,
   type DeviceCategory,
 } from "@/lib/constants";
 
@@ -27,27 +26,13 @@ function isPhotoRequired(category: DeviceCategory | undefined, complaint: string
 }
 
 const schema = z.object({
-  fullName:        z.string().min(2, "Enter your full name"),
-  mobile:          z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit mobile number"),
-  email:           z.string().email("Enter a valid email").optional().or(z.literal("")),
-  deviceCategory:  z.enum(DEVICE_CATEGORIES as unknown as [string, ...string[]]),
-  complaintType:   z.string().min(1, "Select a complaint type"),
-  modelType:       z.string().optional(),
-  brand:           z.string().min(1, "Select a brand"),
-  district:        z.string().min(1, "Select your district"),
-  deliveryMethod:  z.enum(["pickup", "courier"]),
-  returnAddress:   z.string().optional(),
-  returnPincode:   z.string().optional(),
-  remarks:         z.string().optional(),
-}).superRefine((data, ctx) => {
-  if (data.deliveryMethod === "courier") {
-    if (!data.returnAddress || data.returnAddress.trim().length < 10) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Enter your full delivery address", path: ["returnAddress"] });
-    }
-    if (!data.returnPincode || !/^\d{6}$/.test(data.returnPincode)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Enter a valid 6-digit pincode", path: ["returnPincode"] });
-    }
-  }
+  fullName:       z.string().min(2, "Enter your full name"),
+  mobile:         z.string().regex(/^[6-9]\d{9}$/, "Enter a valid 10-digit WhatsApp number"),
+  deviceCategory: z.enum(DEVICE_CATEGORIES as unknown as [string, ...string[]]),
+  complaintType:  z.string().min(1, "Select a complaint type"),
+  modelType:      z.string().optional(),
+  brand:          z.string().min(1, "Select a brand"),
+  remarks:        z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -72,21 +57,9 @@ function ContactFormInner() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const selectedCategory   = watch("deviceCategory") as DeviceCategory | undefined;
-  const selectedComplaint  = watch("complaintType");
-  const selectedDistrict   = watch("district");
-  const deliveryMethod     = watch("deliveryMethod");
-  const photoRequired      = isPhotoRequired(selectedCategory, selectedComplaint);
-  const isCourier          = deliveryMethod === "courier";
-
-  useEffect(() => {
-    if (!selectedDistrict) return;
-    if (selectedDistrict !== "Coimbatore") {
-      setValue("deliveryMethod", "courier");
-    } else {
-      setValue("deliveryMethod", "pickup");
-    }
-  }, [selectedDistrict, setValue]);
+  const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
+  const selectedComplaint = watch("complaintType");
+  const photoRequired     = isPhotoRequired(selectedCategory, selectedComplaint);
 
   useEffect(() => {
     const category = searchParams.get("category") as DeviceCategory | null;
@@ -168,20 +141,17 @@ function ContactFormInner() {
           </button>
         </div>
       )}
+
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto bg-white border border-gray-200 rounded-2xl p-8 space-y-5 shadow-sm">
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <Field label="Full Name *" error={errors.fullName?.message}>
             <input {...register("fullName")} placeholder="Your name" className={inputCls(!!errors.fullName)} />
           </Field>
-          <Field label="Mobile Number *" error={errors.mobile?.message}>
+          <Field label="WhatsApp Number *" error={errors.mobile?.message}>
             <input {...register("mobile")} placeholder="10-digit number" maxLength={10} className={inputCls(!!errors.mobile)} />
           </Field>
         </div>
-
-        <Field label="Email (optional)" error={errors.email?.message}>
-          <input {...register("email")} type="email" placeholder="you@example.com" className={inputCls(!!errors.email)} />
-        </Field>
 
         <Field label="Device Category *" error={errors.deviceCategory?.message}>
           <select {...register("deviceCategory")} className={inputCls(!!errors.deviceCategory)}>
@@ -216,82 +186,6 @@ function ContactFormInner() {
         <Field label="Model (optional)">
           <input {...register("modelType")} placeholder="e.g. boAt Airdopes 141" className={inputCls(false)} />
         </Field>
-
-        <Field label="District *" error={errors.district?.message}>
-          <select {...register("district")} className={inputCls(!!errors.district)}>
-            <option value="">Select district</option>
-            {TN_DISTRICTS.map((d) => (
-              <option key={d} value={d}>{d}</option>
-            ))}
-          </select>
-        </Field>
-
-        {selectedDistrict && (
-          <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">Device Return *</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setValue("deliveryMethod", "pickup")}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
-                  !isCourier
-                    ? "bg-blue-50 border-blue-500 text-blue-700"
-                    : "bg-white border-gray-200 text-gray-500 hover:border-gray-400"
-                )}
-              >
-                <Store className="w-4 h-4 flex-shrink-0" />
-                <span>I&apos;ll pick up from store</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setValue("deliveryMethod", "courier")}
-                className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
-                  isCourier
-                    ? "bg-blue-50 border-blue-500 text-blue-700"
-                    : "bg-white border-gray-200 text-gray-500 hover:border-gray-400"
-                )}
-              >
-                <Package className="w-4 h-4 flex-shrink-0" />
-                <span>Courier it to me</span>
-              </button>
-            </div>
-            <input type="hidden" {...register("deliveryMethod")} />
-
-            {isCourier && (
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-4">
-                <p className="text-blue-600 text-xs flex items-center gap-2">
-                  <Package className="w-3.5 h-3.5" />
-                  We&apos;ll courier your repaired device to this address.
-                </p>
-                <Field label="Full Delivery Address *" error={errors.returnAddress?.message}>
-                  <textarea
-                    {...register("returnAddress")}
-                    rows={2}
-                    placeholder="Door no, Street, Area, City"
-                    className={cn(inputCls(!!errors.returnAddress), "resize-none")}
-                  />
-                </Field>
-                <Field label="Pincode *" error={errors.returnPincode?.message}>
-                  <input
-                    {...register("returnPincode")}
-                    placeholder="6-digit pincode"
-                    maxLength={6}
-                    className={inputCls(!!errors.returnPincode)}
-                  />
-                </Field>
-              </div>
-            )}
-
-            {!isCourier && selectedDistrict !== "Coimbatore" && (
-              <p className="text-amber-600 text-xs flex items-center gap-1.5">
-                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                You selected a district outside Coimbatore. Are you sure you want store pickup?
-              </p>
-            )}
-          </div>
-        )}
 
         <Field label="Remarks (optional)">
           <textarea
@@ -361,6 +255,15 @@ function ContactFormInner() {
               Please upload a photo of your device to continue.
             </p>
           )}
+        </div>
+
+        {/* Notice */}
+        <div className="flex items-start gap-3 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
+          <Info className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+          <p className="text-blue-700 text-sm leading-relaxed">
+            Submitting an enquiry is mandatory — our executive will reach out to you shortly after registration.
+            All services are provided exclusively for registered enquiries.
+          </p>
         </div>
 
         <button
