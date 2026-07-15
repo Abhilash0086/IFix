@@ -17,7 +17,7 @@ export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
   "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "Boult", "Zebronics", "pTron", "Portronics", "Other Brands", "✗ realme", "✗ Apple AirPods", "✗ Samsung Galaxy Buds"],
   "Neckband":          ["boAt", "OnePlus", "JBL", "Sony", "Noise", "Boult Audio", "Zebronics", "Skullcandy", "✗ realme", "✗ pTron", "✗ Other Brands"],
   "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Zebronics", "Other Brands", "✗ Bang & Olufsen"],
-  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "✗ Other Brands"],
+  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Mivi", "Other Brands", "✗ Ultimate Ears"],
 };
 
 // Issues per category — mirrors COMPLAINT_TYPES exactly so pre-fill works
@@ -104,7 +104,7 @@ const NOT_SERVICEABLE: Partial<Record<CheckerCategory, Record<string, string>>> 
   "TWS / Earbuds":     { "✗ realme": "We don't service realme TWS / Earbuds currently.", "✗ Apple AirPods": "We don't service Apple AirPods.", "✗ Samsung Galaxy Buds": "Samsung Galaxy Buds require proprietary parts — not serviceable." },
   "Neckband":          { "✗ realme": "We don't service realme neckbands currently.", "✗ pTron": "We don't service pTron neckbands currently.", "✗ Other Brands": "We only service the brands listed above." },
   "Headphones":        { "✗ Bang & Olufsen": "Bang & Olufsen devices require authorised service." },
-  "Bluetooth Speaker": { "✗ Ultimate Ears": "Ultimate Ears devices are not serviceable at this time.", "✗ Other Brands": "We only service the brands listed above." },
+  "Bluetooth Speaker": { "✗ Ultimate Ears": "Ultimate Ears devices are not serviceable at this time." },
 };
 
 export function getCheckResult(

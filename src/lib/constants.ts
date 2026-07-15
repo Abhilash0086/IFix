@@ -53,8 +53,7 @@ export const COMPLAINT_TYPES: Record<DeviceCategory, string[]> = {
   ],
   "Bluetooth Speaker": [
     "No sound", "Low volume", "Charging pin / port damage", "Battery issue",
-    "Bluetooth not connecting", "Physical damage", "Water damage",
-    "Distorted sound", "Other",
+    "Bluetooth not connecting", "Distorted sound", "Other",
   ],
 };
 
@@ -63,5 +62,5 @@ export const BRANDS: Record<DeviceCategory, string[]> = {
   "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "Boult", "Zebronics", "pTron", "Portronics", "Other"],
   Neckband:            ["boAt", "OnePlus", "JBL", "Sony", "Noise", "Boult Audio", "Zebronics", "Skullcandy", "Other"],
   Headphones:          ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Zebronics", "Audio-Technica", "Other"],
-  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "Bose", "Other"],
+  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Mivi", "Bose", "Other"],
 };
