@@ -13,7 +13,7 @@ export type CheckerCategory = typeof CHECKER_CATEGORIES[number]["label"];
 
 // Brands per category — "✗" prefix = NOT serviceable
 export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
-  "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "realme", "Fastrack", "Zebronics", "pTron", "✗ Apple Watch", "✗ Garmin", "✗ Other Brands"],
+  "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "Fastrack", "✗ realme", "✗ Zebronics", "✗ pTron", "✗ Apple Watch", "✗ Garmin", "✗ Other Brands"],
   "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "realme", "Boult", "Zebronics", "pTron", "Portronics", "✗ Apple AirPods", "✗ Samsung Galaxy Buds", "✗ Other Brands"],
   "Neckband":          ["boAt", "realme", "OnePlus", "JBL", "Sony", "Noise", "Boult", "Zebronics", "Skullcandy", "pTron", "✗ Other Brands"],
   "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "✗ Bang & Olufsen", "✗ Other Brands"],
@@ -22,6 +22,11 @@ export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
 
 // Issues per category — mirrors COMPLAINT_TYPES exactly so pre-fill works
 export const CHECKER_ISSUES = COMPLAINT_TYPES;
+
+// Issues to hide in the checker for specific categories (regardless of brand)
+export const CHECKER_HIDDEN_ISSUES: Partial<Record<CheckerCategory, string[]>> = {
+  "Smart Watch": ["Display not working", "Touch not responding", "Button not working", "Not connecting to phone"],
+};
 
 export type CheckResult =
   | { type: "exact";    price: string; time: string; photoRequired?: boolean; note?: string }
@@ -96,7 +101,7 @@ const GENERIC_ISSUE_PRICE: Partial<Record<CheckerCategory, Record<string, Omit<E
 };
 
 const NOT_SERVICEABLE: Partial<Record<CheckerCategory, Record<string, string>>> = {
-  "Smart Watch":       { "✗ Apple Watch": "We don't service Apple Watches.", "✗ Garmin": "We don't service Garmin watches currently.", "✗ Other Brands": "We only service the brands listed above." },
+  "Smart Watch":       { "✗ realme": "We don't service realme smartwatches currently.", "✗ Zebronics": "We don't service Zebronics smartwatches currently.", "✗ pTron": "We don't service pTron smartwatches currently.", "✗ Apple Watch": "We don't service Apple Watches.", "✗ Garmin": "We don't service Garmin watches currently.", "✗ Other Brands": "We only service the brands listed above." },
   "TWS / Earbuds":     { "✗ Apple AirPods": "We don't service Apple AirPods.", "✗ Samsung Galaxy Buds": "Samsung Galaxy Buds require proprietary parts — not serviceable.", "✗ Other Brands": "We only service the brands listed above." },
   "Neckband":          { "✗ Other Brands": "We only service the brands listed above." },
   "Headphones":        { "✗ Bang & Olufsen": "Bang & Olufsen devices require authorised service.", "✗ Other Brands": "We only service the brands listed above." },

@@ -7,6 +7,7 @@ import {
   CHECKER_CATEGORIES,
   CHECKER_BRANDS,
   CHECKER_ISSUES,
+  CHECKER_HIDDEN_ISSUES,
   getCheckResult,
   type CheckerCategory,
 } from "@/lib/checker-data";
@@ -144,16 +145,18 @@ export default function DeviceChecker() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {CHECKER_ISSUES[category].map((iss) => (
-                    <button
-                      key={iss}
-                      onClick={() => { setIssue(iss); setStep("result"); }}
-                      className="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-medium hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-all text-left"
-                    >
-                      <span>{iss}</span>
-                      <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" />
-                    </button>
-                  ))}
+                  {CHECKER_ISSUES[category]
+                    .filter((iss) => !CHECKER_HIDDEN_ISSUES[category]?.includes(iss))
+                    .map((iss) => (
+                      <button
+                        key={iss}
+                        onClick={() => { setIssue(iss); setStep("result"); }}
+                        className="flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-medium hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-all text-left"
+                      >
+                        <span>{iss}</span>
+                        <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" />
+                      </button>
+                    ))}
                 </div>
               </motion.div>
             )}
