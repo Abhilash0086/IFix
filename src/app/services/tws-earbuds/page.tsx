@@ -23,10 +23,7 @@ export default function TWSEarbudsPage() {
         "One side not producing sound",
         "Both earbuds completely dead",
         "Charging case not charging earbuds",
-        "Microphone not working during calls",
-        "Touch controls not working",
-        "ANC / noise cancellation issues",
-        "Physical damage repair",
+        "Connectivity & pairing issues",
       ]}
       pricing={[
         {

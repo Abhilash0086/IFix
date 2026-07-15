@@ -19,13 +19,9 @@ export default function NeckbandsPage() {
         "Wire cut / cable damage",
         "One or both sides no sound",
         "Driver / speaker replacement",
-        "Microphone not working",
         "Charging port damage",
-        "Battery not holding charge",
-        "Magnetic tips not holding",
-        "Volume / play button issues",
-        "Bluetooth pairing issues",
         "Low volume",
+        "Connectivity / pairing issues",
       ]}
       pricing={[
         {

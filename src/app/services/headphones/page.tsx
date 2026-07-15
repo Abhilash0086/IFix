@@ -8,7 +8,7 @@ export default function HeadphonesPage() {
       category="Headphones"
       title="Headphone Repair"
       subtitle="Over-ear, On-ear & Boom Headsets"
-      description="Wire issues, mic problems, USB/Type-C pin damage, physical damage — all headphone repairs done within 2 days."
+      description="USB/Type-C pin damage, physical damage, driver issues, battery replacement — professional headphone repairs with warranty."
       deviceTypes={[
         "Over-ear Wireless Headphones",
         "On-ear Wireless Headphones",
@@ -18,16 +18,11 @@ export default function HeadphonesPage() {
         "Gaming Headsets",
       ]}
       issuesFixed={[
-        "Wire issue / cable damage",
         "Physical damage (headband, ear cup, housing)",
         "USB pin / Type-C charging port issue",
-        "Microphone not working",
         "Speaker / driver issue",
         "One side or both sides no sound",
-        "ANC not functioning",
         "Battery replacement",
-        "Hinge / swivel repair",
-        "Aux jack repair",
       ]}
       pricing={[
         {

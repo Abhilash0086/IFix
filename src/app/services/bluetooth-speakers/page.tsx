@@ -18,16 +18,12 @@ export default function BluetoothSpeakersPage() {
         "TWS Stereo Pair Speakers",
       ]}
       issuesFixed={[
-        "Not turning on",
         "Battery issue / draining fast",
-        "Backup / software issue",
-        "Charging but not powering on",
         "Charging pin / port damage",
         "No sound output",
         "Distorted sound",
         "Bluetooth not connecting",
-        "Water / moisture damage",
-        "Physical casing damage",
+        "Low volume",
       ]}
       pricing={[
         {

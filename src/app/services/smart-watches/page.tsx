@@ -17,14 +17,9 @@ export default function SmartWatchesPage() {
         "Fashion Smartwatches",
       ]}
       issuesFixed={[
-        "Not turning on",
+        "Not turning on / not working",
         "Battery draining fast / battery issue",
-        "Backup / software issue",
-        "Charging but not powering on",
-        "Not charging",
-        "Cracked / broken display",
-        "Touch screen not responding",
-        "Bluetooth not connecting to phone",
+        "Charging not working",
         "Strap / band replacement",
       ]}
       pricing={[

@@ -12,7 +12,7 @@ const services = [
     priceFrom: "₹600",
     tat: "Within 24 hrs",
     accent: "purple",
-    issues: ["Not turning on / dead watch", "Battery draining fast", "Charging not working", "Sensor & display issues", "Button not working"],
+    issues: ["Not turning on / not working", "Battery draining fast", "Charging not working", "Strap replacement"],
   },
   {
     icon: Ear,
@@ -21,7 +21,7 @@ const services = [
     priceFrom: "₹99",
     tat: "30 min – 1 day",
     accent: "blue",
-    issues: ["One side not working", "Both sides dead", "Low volume / muffled audio", "Connectivity & pairing issues", "Charging case problems"],
+    issues: ["One side not working", "Both sides dead", "Low volume", "Connectivity & pairing issues", "Charging case not charging"],
   },
   {
     icon: Radio,
@@ -30,7 +30,7 @@ const services = [
     priceFrom: "₹150",
     tat: "Within 24 hrs",
     accent: "cyan",
-    issues: ["Wire cut or broken", "One side no sound", "Mic not working", "Button & control issues", "Battery not charging"],
+    issues: ["Wire cut or broken", "One side no sound", "Charging not working", "Connectivity issues"],
   },
   {
     icon: Headphones,
@@ -39,7 +39,7 @@ const services = [
     priceFrom: "₹480",
     tat: "Within 2 days",
     accent: "green",
-    issues: ["Ear cup or headband damage", "One or both sides dead", "Mic not picking up voice", "ANC not working", "Charging port damage"],
+    issues: ["Ear cup or headband damage", "One or both sides dead", "Charging port damage", "Battery issue"],
   },
   {
     icon: Speaker,
@@ -48,7 +48,7 @@ const services = [
     priceFrom: "₹299",
     tat: "Within 24 hrs – 3 days",
     accent: "orange",
-    issues: ["No sound output", "Distorted / crackling audio", "Not turning on", "Charging pin damage", "Battery draining fast"],
+    issues: ["No sound output", "Distorted / crackling audio", "Charging pin damage", "Battery issue", "Bluetooth not connecting"],
   },
 ];
 
