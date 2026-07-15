@@ -1,12 +1,11 @@
-import { Watch, Ear, Radio, Headphones, Speaker } from "lucide-react";
 import { COMPLAINT_TYPES } from "./constants";
 
 export const CHECKER_CATEGORIES = [
-  { label: "Smart Watch",        icon: Watch,       color: "from-purple-500/20 to-purple-600/10 border-purple-500/30", iconColor: "text-purple-400", lightColor: "border-purple-200 hover:border-purple-400", lightIconColor: "text-purple-600" },
-  { label: "TWS / Earbuds",      icon: Ear,         color: "from-blue-500/20 to-blue-600/10 border-blue-500/30",       iconColor: "text-blue-400",   lightColor: "border-blue-200 hover:border-blue-400",   lightIconColor: "text-blue-600"   },
-  { label: "Neckband",           icon: Radio,       color: "from-cyan-500/20 to-cyan-600/10 border-cyan-500/30",       iconColor: "text-cyan-400",   lightColor: "border-cyan-200 hover:border-cyan-400",   lightIconColor: "text-cyan-600"   },
-  { label: "Headphones",         icon: Headphones,  color: "from-green-500/20 to-green-600/10 border-green-500/30",    iconColor: "text-green-400",  lightColor: "border-green-200 hover:border-green-400", lightIconColor: "text-green-600"  },
-  { label: "Bluetooth Speaker",  icon: Speaker,     color: "from-orange-500/20 to-orange-600/10 border-orange-500/30", iconColor: "text-orange-400", lightColor: "border-orange-200 hover:border-orange-400",lightIconColor: "text-orange-600" },
+  { label: "Smart Watch",       image: "/devices/Amazfit T Rex.png",      bg: "bg-purple-50", lightColor: "border-purple-200 hover:border-purple-400" },
+  { label: "TWS / Earbuds",     image: "/devices/TWS.png",                bg: "bg-blue-50",   lightColor: "border-blue-200 hover:border-blue-400"     },
+  { label: "Neckband",          image: "/categories/neckband.jpg",        bg: "bg-cyan-50",   lightColor: "border-cyan-200 hover:border-cyan-400"     },
+  { label: "Headphones",        image: "/devices/Jabra Evolve 20.png",    bg: "bg-green-50",  lightColor: "border-green-200 hover:border-green-400"   },
+  { label: "Bluetooth Speaker", image: "/devices/JBL Charge 5.png",       bg: "bg-orange-50", lightColor: "border-orange-200 hover:border-orange-400" },
 ] as const;
 
 export type CheckerCategory = typeof CHECKER_CATEGORIES[number]["label"];

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, MessageCircle, Clock, IndianRupee, ChevronRight, RotateCcw, AlertTriangle, Camera } from "lucide-react";
 import {
@@ -83,11 +84,19 @@ export default function DeviceChecker() {
                       key={cat.label}
                       onClick={() => { setCategory(cat.label); setStep("brand"); }}
                       className={cn(
-                        "flex flex-col items-center gap-2 p-4 rounded-xl border bg-white text-center transition-all hover:scale-[1.03] hover:shadow-md",
+                        "flex flex-col items-center gap-2 p-3 rounded-xl border bg-white text-center transition-all hover:scale-[1.03] hover:shadow-md overflow-hidden",
                         cat.lightColor
                       )}
                     >
-                      <cat.icon className={cn("w-7 h-7", cat.lightIconColor)} />
+                      <div className={`relative w-full h-20 rounded-lg overflow-hidden ${cat.bg}`}>
+                        <Image
+                          src={cat.image}
+                          alt={cat.label}
+                          fill
+                          className="object-contain p-2"
+                          sizes="(max-width: 640px) 50vw, 33vw"
+                        />
+                      </div>
                       <span className="text-gray-800 text-sm font-medium leading-tight">{cat.label}</span>
                     </button>
                   ))}
