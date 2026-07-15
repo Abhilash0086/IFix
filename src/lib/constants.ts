@@ -62,9 +62,9 @@ export const COMPLAINT_TYPES: Record<DeviceCategory, string[]> = {
 };
 
 export const BRANDS: Record<DeviceCategory, string[]> = {
-  "Smart Watch": ["boAt", "Noise", "Fire-Boltt", "Amazfit", "Samsung", "Huawei", "Fossil", "Other"],
-  "TWS / Earbuds": ["boAt", "JBL", "Sony", "Samsung", "OnePlus", "Realme", "Noise", "Boult", "Zebronics", "Other"],
-  Neckband: ["boAt", "JBL", "Sony", "Realme", "OnePlus", "Noise", "Boult", "Zebronics", "Skullcandy", "Other"],
-  Headphones: ["Sony", "JBL", "boAt", "Sennheiser", "Audio-Technica", "Skullcandy", "Noise", "Other"],
-  "Bluetooth Speaker": ["JBL", "Sony", "boAt", "Bose", "Marshall", "Zebronics", "Portronics", "Other"],
+  "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "Fastrack", "Samsung", "Huawei", "Fossil", "Other"],
+  "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "realme", "Boult", "Zebronics", "pTron", "Portronics", "Other"],
+  Neckband:            ["boAt", "realme", "OnePlus", "JBL", "Sony", "Noise", "Boult", "Zebronics", "Skullcandy", "pTron", "Other"],
+  Headphones:          ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "Audio-Technica", "Other"],
+  "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "Bose", "Other"],
 };
