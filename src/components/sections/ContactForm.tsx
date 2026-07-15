@@ -99,6 +99,14 @@ function ContactFormInner() {
     setTimeout(() => setToast(null), 4000);
   };
 
+  const toBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve((reader.result as string).split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
   const onSubmit = async (data: FormData) => {
     if (photoRequired && !photoFile) {
       setPhotoError(true);
@@ -107,9 +115,14 @@ function ContactFormInner() {
     }
     setIsLoading(true);
     try {
-      const payload = new FormData();
+      const payload = new globalThis.FormData();
       Object.entries(data).forEach(([k, v]) => v != null && v !== "" && payload.append(k, v as string));
-      if (photoFile) payload.append("photo", photoFile);
+      if (photoFile) {
+        const base64 = await toBase64(photoFile);
+        payload.append("photoBase64", base64);
+        payload.append("photoMimeType", photoFile.type);
+        payload.append("photoName", photoFile.name);
+      }
       await fetch(SCRIPT_URL, { method: "POST", body: payload, mode: "no-cors" });
       showToast("Request received! We'll contact you within a few hours.", "success");
       reset();
