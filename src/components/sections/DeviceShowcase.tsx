@@ -69,10 +69,17 @@ export default function DeviceShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.04 }}
-                className={`w-[calc(50%-8px)] sm:w-[calc(33.33%-11px)] bg-white border border-gray-200 ${style.border} rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col`}
+                className="w-[calc(50%-8px)] sm:w-[calc(33.33%-11px)] rounded-2xl shadow-sm hover:shadow-md transition-all duration-200"
               >
+                {/* Inner card — overflow-hidden clips ribbon to card bounds */}
+                <div className={`relative overflow-hidden rounded-2xl bg-white border border-gray-200 ${style.border} p-4 h-full flex flex-col transition-colors duration-200`}>
+                  {/* Slanting ribbon — positioned relative to card, not image */}
+                  <div className="absolute -top-6 -left-14 w-52 flex items-center justify-center bg-green-600 text-white text-xs font-extrabold uppercase tracking-wider py-2.5 -rotate-45 pointer-events-none select-none z-10">
+                    Serviceable
+                  </div>
+
                 {/* Image */}
-                <div className="relative w-full h-32 mb-3 overflow-hidden rounded-lg">
+                <div className="relative w-full h-32 mb-3 rounded-lg">
                   <Image
                     src={device.image}
                     alt={`${device.brand} ${device.model}`}
@@ -80,10 +87,6 @@ export default function DeviceShowcase() {
                     className="object-contain"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
-                  {/* Slanting ribbon — top-left corner */}
-                  <div className="absolute -top-3 -left-10 w-40 flex items-center justify-center bg-green-600 text-white text-[11px] font-extrabold uppercase tracking-wider py-2 -rotate-45 shadow-md pointer-events-none select-none">
-                    Serviceable
-                  </div>
                 </div>
 
                 {/* Info */}
@@ -107,6 +110,7 @@ export default function DeviceShowcase() {
                     <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
+                </div>{/* end inner card */}
               </motion.div>
             );
           })}
