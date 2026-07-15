@@ -101,12 +101,6 @@ export default function Services() {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-3 mb-3">
                       <h3 className="text-gray-900 font-bold text-lg">{s.title}</h3>
-                      <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${a.badge}`}>
-                        From {s.priceFrom}
-                      </span>
-                      <span className="text-xs text-gray-400 border border-gray-200 px-2.5 py-1 rounded-full">
-                        ⏱ {s.tat}
-                      </span>
                     </div>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
                       {s.issues.map((issue) => (
