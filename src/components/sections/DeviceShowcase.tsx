@@ -78,6 +78,14 @@ export default function DeviceShowcase() {
                     className="object-contain"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
+                  {/* Stamp overlay */}
+                  <div className="absolute bottom-0 right-0 w-16 h-16 flex items-center justify-center rotate-12 pointer-events-none select-none">
+                    <div className="w-full h-full rounded-full border-[2.5px] border-dashed border-green-600/50 bg-white/60 flex flex-col items-center justify-center">
+                      <span className="text-green-700 font-black text-[8px] uppercase tracking-tight leading-none">We</span>
+                      <span className="text-green-700 font-black text-[8px] uppercase tracking-tight leading-none">Fix</span>
+                      <span className="text-green-700 font-black text-[8px] uppercase tracking-tight leading-none">This</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Info */}
