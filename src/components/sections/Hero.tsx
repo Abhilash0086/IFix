@@ -43,23 +43,19 @@ function Counter({ target, suffix, decimal }: { target: number; suffix: string; 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 overflow-hidden">
-      {/* Background glow orbs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-200/60 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-indigo-200/40 rounded-full blur-3xl" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent" />
-
-      {/* Background device images */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 opacity-[0.07] pointer-events-none select-none hidden md:block">
-        <Image src="/devices/Amazfit T Rex.png" alt="" fill className="object-contain" />
-      </div>
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-72 h-72 opacity-[0.07] pointer-events-none select-none hidden md:block">
-        <Image src="/devices/JBL Charge 5.png" alt="" fill className="object-contain" />
-      </div>
-      <div className="absolute left-1/4 bottom-8 w-44 h-44 opacity-[0.05] pointer-events-none select-none hidden lg:block">
-        <Image src="/devices/Sony WF 1000xm4.png" alt="" fill className="object-contain" />
-      </div>
-      <div className="absolute right-1/4 top-8 w-44 h-44 opacity-[0.05] pointer-events-none select-none hidden lg:block">
-        <Image src="/devices/Jabra Evolve 20.png" alt="" fill className="object-contain" />
+      {/* Background photo */}
+      <div className="absolute inset-0">
+        <Image
+          src="/hero-bg.jpg"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Light wash overlay so text stays readable */}
+        <div className="absolute inset-0 bg-white/82" />
+        {/* Subtle blue tint at top and bottom edges */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100/60 via-transparent to-indigo-100/50" />
       </div>
 
       <div className="relative container mx-auto px-4 py-24 text-center">
