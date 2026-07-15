@@ -73,8 +73,8 @@ export default function DeviceShowcase() {
               >
                 {/* Inner card — overflow-hidden clips ribbon to card bounds */}
                 <div className={`relative overflow-hidden rounded-2xl bg-white border border-gray-200 ${style.border} p-4 h-full flex flex-col transition-colors duration-200`}>
-                  {/* Slanting ribbon — positioned relative to card, not image */}
-                  <div className="absolute -top-6 -left-14 w-52 flex items-center justify-center bg-green-600 text-white text-xs font-extrabold uppercase tracking-wider py-2.5 -rotate-45 pointer-events-none select-none z-10">
+                  {/* Slanting ribbon — center must be inside card so overflow-hidden shows full text */}
+                  <div className="absolute top-5 -left-12 w-44 flex items-center justify-center bg-green-600 text-white text-xs font-extrabold uppercase tracking-wider py-2 -rotate-45 pointer-events-none select-none z-10">
                     Serviceable
                   </div>
 
