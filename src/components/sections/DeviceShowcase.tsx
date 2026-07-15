@@ -15,7 +15,7 @@ const devices = [
   { image: "/devices/Sony WF 1000xm3.png",      brand: "Sony",       model: "WF-1000XM3",     category: "TWS / Earbuds"     },
   { image: "/devices/Sony WF 1000xm4.png",      brand: "Sony",       model: "WF-1000XM4",     category: "TWS / Earbuds"     },
   { image: "/devices/Jabra Evolve 20.png",      brand: "Jabra",      model: "Evolve 20",      category: "Headphones"        },
-  { image: "/devices/Damaged Headset.png",      brand: "All Brands", model: "Headset Repair", category: "Headphones"        },
+  { image: "/devices/Damaged Headset.png",      brand: "All Brands", model: "Any Headset",    category: "Headphones"        },
   { image: "/devices/JBL Charge 5.png",         brand: "JBL",        model: "Charge 5",       category: "Bluetooth Speaker" },
   { image: "/devices/JBL Boom box 1.png",       brand: "JBL",        model: "Boombox 1",      category: "Bluetooth Speaker" },
   { image: "/devices/Marshall Emberton 2.png",  brand: "Marshall",   model: "Emberton II",    category: "Bluetooth Speaker" },
@@ -54,12 +54,12 @@ export default function DeviceShowcase() {
             Express Repair Service
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            The devices below are our speciality — diagnosed, repaired, and returned to you within 24 hours.
+            The devices below are our specialty — diagnosed, repaired, and returned to you within 24 hours.
           </p>
         </div>
 
-        {/* Device grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* Device grid — flex-wrap so last row centres naturally */}
+        <div className="flex flex-wrap justify-center gap-4">
           {devices.map((device, i) => {
             const style = categoryStyle[device.category];
             return (
@@ -69,7 +69,7 @@ export default function DeviceShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.04 }}
-                className={`bg-white border border-gray-200 ${style.border} rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col`}
+                className={`w-[calc(50%-8px)] sm:w-[calc(33.33%-11px)] bg-white border border-gray-200 ${style.border} rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col`}
               >
                 {/* Image */}
                 <div className="relative w-full h-32 mb-3 overflow-hidden rounded-lg">
@@ -81,7 +81,7 @@ export default function DeviceShowcase() {
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                   {/* Slanting ribbon — top-left corner */}
-                  <div className="absolute -top-1 -left-8 w-28 flex items-center justify-center bg-green-600 text-white text-[9px] font-bold uppercase tracking-widest py-1 -rotate-45 shadow-sm pointer-events-none select-none">
+                  <div className="absolute -top-3 -left-10 w-40 flex items-center justify-center bg-green-600 text-white text-[11px] font-extrabold uppercase tracking-wider py-2 -rotate-45 shadow-md pointer-events-none select-none">
                     Serviceable
                   </div>
                 </div>
