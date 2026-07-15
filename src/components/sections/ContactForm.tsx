@@ -99,12 +99,26 @@ function ContactFormInner() {
     setTimeout(() => setToast(null), 4000);
   };
 
-  const toBase64 = (file: File): Promise<string> =>
+  const compressImage = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve((reader.result as string).split(",")[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const MAX = 800;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round(height * MAX / width); width = MAX; }
+          else { width = Math.round(width * MAX / height); height = MAX; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL("image/jpeg", 0.7).split(",")[1]);
+      };
+      img.onerror = reject;
+      img.src = url;
     });
 
   const onSubmit = async (data: FormValues) => {
@@ -118,7 +132,7 @@ function ContactFormInner() {
       const payload = new FormData();
       Object.entries(data).forEach(([k, v]) => v != null && v !== "" && payload.append(k, v as string));
       if (photoFile) {
-        const base64 = await toBase64(photoFile);
+        const base64 = await compressImage(photoFile);
         payload.append("photoBase64", base64);
         payload.append("photoMimeType", photoFile.type);
         payload.append("photoName", photoFile.name);
