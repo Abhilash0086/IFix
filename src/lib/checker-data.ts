@@ -15,7 +15,7 @@ export type CheckerCategory = typeof CHECKER_CATEGORIES[number]["label"];
 export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
   "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "Fastrack", "✗ realme", "✗ Zebronics", "✗ pTron", "✗ Apple Watch", "✗ Garmin", "✗ Other Brands"],
   "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "Boult", "Zebronics", "pTron", "Portronics", "✗ realme", "✗ Apple AirPods", "✗ Samsung Galaxy Buds", "✗ Other Brands"],
-  "Neckband":          ["boAt", "realme", "OnePlus", "JBL", "Sony", "Noise", "Boult", "Zebronics", "Skullcandy", "pTron", "✗ Other Brands"],
+  "Neckband":          ["boAt", "OnePlus", "JBL", "Sony", "Noise", "Boult Audio", "Zebronics", "Skullcandy", "✗ realme", "✗ pTron", "✗ Other Brands"],
   "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "✗ Bang & Olufsen", "✗ Other Brands"],
   "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "✗ Other Brands"],
 };
@@ -103,7 +103,7 @@ const GENERIC_ISSUE_PRICE: Partial<Record<CheckerCategory, Record<string, Omit<E
 const NOT_SERVICEABLE: Partial<Record<CheckerCategory, Record<string, string>>> = {
   "Smart Watch":       { "✗ realme": "We don't service realme smartwatches currently.", "✗ Zebronics": "We don't service Zebronics smartwatches currently.", "✗ pTron": "We don't service pTron smartwatches currently.", "✗ Apple Watch": "We don't service Apple Watches.", "✗ Garmin": "We don't service Garmin watches currently.", "✗ Other Brands": "We only service the brands listed above." },
   "TWS / Earbuds":     { "✗ realme": "We don't service realme TWS / Earbuds currently.", "✗ Apple AirPods": "We don't service Apple AirPods.", "✗ Samsung Galaxy Buds": "Samsung Galaxy Buds require proprietary parts — not serviceable.", "✗ Other Brands": "We only service the brands listed above." },
-  "Neckband":          { "✗ Other Brands": "We only service the brands listed above." },
+  "Neckband":          { "✗ realme": "We don't service realme neckbands currently.", "✗ pTron": "We don't service pTron neckbands currently.", "✗ Other Brands": "We only service the brands listed above." },
   "Headphones":        { "✗ Bang & Olufsen": "Bang & Olufsen devices require authorised service.", "✗ Other Brands": "We only service the brands listed above." },
   "Bluetooth Speaker": { "✗ Ultimate Ears": "Ultimate Ears devices are not serviceable at this time.", "✗ Other Brands": "We only service the brands listed above." },
 };
