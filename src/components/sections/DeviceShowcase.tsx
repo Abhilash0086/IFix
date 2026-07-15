@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { CalendarCheck, ArrowRight, Zap } from "lucide-react";
 
 const devices = [
-  { image: "/devices/Amazfit T Rex.png",       brand: "Amazfit",    model: "T Rex",          category: "Smart Watch"       },
-  { image: "/devices/Fire Boltt Snapp.png",     brand: "Fire-Boltt", model: "Snapp",          category: "Smart Watch"       },
+  { image: "/devices/Amazfit T Rex.png",       brand: "Amazfit",    model: "T-Rex",          category: "Smart Watch"       },
+  { image: "/devices/Fire Boltt Snapp.png",     brand: "Fire-Boltt", model: "Snap",           category: "Smart Watch"       },
   { image: "/devices/JBL Tws 130.png",          brand: "JBL",        model: "TWS 130 NC",     category: "TWS / Earbuds"     },
   { image: "/devices/JBL Tws 230.png",          brand: "JBL",        model: "TWS 230 NC",     category: "TWS / Earbuds"     },
   { image: "/devices/TWS.png",                  brand: "boAt",       model: "Airdopes",       category: "TWS / Earbuds"     },
@@ -17,7 +17,7 @@ const devices = [
   { image: "/devices/Jabra Evolve 20.png",      brand: "Jabra",      model: "Evolve 20",      category: "Headphones"        },
   { image: "/devices/Damaged Headset.png",      brand: "All Brands", model: "Any Headset",    category: "Headphones"        },
   { image: "/devices/JBL Charge 5.png",         brand: "JBL",        model: "Charge 5",       category: "Bluetooth Speaker" },
-  { image: "/devices/JBL Boom box 1.png",       brand: "JBL",        model: "Boombox 1",      category: "Bluetooth Speaker" },
+  { image: "/devices/JBL Boom box 1.png",       brand: "JBL",        model: "Boombox",        category: "Bluetooth Speaker" },
   { image: "/devices/Marshall Emberton 2.png",  brand: "Marshall",   model: "Emberton II",    category: "Bluetooth Speaker" },
   { image: "/devices/Boat Stone 1000.png",      brand: "boAt",       model: "Stone 1000",     category: "Bluetooth Speaker" },
 ];
