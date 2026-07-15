@@ -35,7 +35,7 @@ const schema = z.object({
   remarks:        z.string().optional(),
 });
 
-type FormData = z.infer<typeof schema>;
+type FormValues = z.infer<typeof schema>;
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxxnU0goSHF5oNuZh7uvVtDDjLWSW4uBxNTCB1jSV893tquhRFqEYJdDvbg6DBklrZyA/exec";
 
@@ -55,7 +55,7 @@ function ContactFormInner() {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const selectedCategory  = watch("deviceCategory") as DeviceCategory | undefined;
   const selectedComplaint = watch("complaintType");
@@ -107,7 +107,7 @@ function ContactFormInner() {
       reader.readAsDataURL(file);
     });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormValues) => {
     if (photoRequired && !photoFile) {
       setPhotoError(true);
       fileInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -115,7 +115,7 @@ function ContactFormInner() {
     }
     setIsLoading(true);
     try {
-      const payload = new globalThis.FormData();
+      const payload = new FormData();
       Object.entries(data).forEach(([k, v]) => v != null && v !== "" && payload.append(k, v as string));
       if (photoFile) {
         const base64 = await toBase64(photoFile);
