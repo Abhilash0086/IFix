@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CheckCircle, XCircle, ArrowRight, Clock, CalendarCheck } from "lucide-react";
+import { CheckCircle, XCircle, ArrowRight, CalendarCheck } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import type { DeviceCategory } from "@/lib/constants";
@@ -9,8 +9,8 @@ export interface PricingRow {
   brand: string;
   model: string;
   complaints: string[];
-  price: string;
-  time: string;
+  price?: string;
+  time?: string;
   note?: string;
   photoRequired?: boolean;
   image?: string;
@@ -27,6 +27,7 @@ export interface ServicePageProps {
   brandsLimited: { brand: string; note: string }[];
   pricing: PricingRow[];
   relatedServices: { label: string; href: string }[];
+  hidePriceCol?: boolean;
 }
 
 function bookingUrl(category: DeviceCategory, brand: string, model: string) {
@@ -36,7 +37,7 @@ function bookingUrl(category: DeviceCategory, brand: string, model: string) {
 
 export default function ServicePage({
   category, title, subtitle, description, deviceTypes, issuesFixed,
-  brandsServiced, brandsLimited, pricing, relatedServices,
+  brandsServiced, brandsLimited, pricing, relatedServices, hidePriceCol = false,
 }: ServicePageProps) {
   return (
     <>
@@ -63,8 +64,7 @@ export default function ServicePage({
                       <th className="px-4 py-3 text-left font-semibold">Brand</th>
                       <th className="px-4 py-3 text-left font-semibold">Model</th>
                       <th className="px-4 py-3 text-left font-semibold">Issues Covered</th>
-                      <th className="px-4 py-3 text-left font-semibold">Approx Cost (₹)</th>
-                      <th className="px-4 py-3 text-left font-semibold">TAT</th>
+                      {!hidePriceCol && <th className="px-4 py-3 text-left font-semibold">Approx Cost (₹)</th>}
                       <th className="px-4 py-3 text-left font-semibold">Book</th>
                     </tr>
                   </thead>
@@ -92,21 +92,17 @@ export default function ServicePage({
                             ))}
                           </ul>
                         </td>
-                        <td className="px-4 py-4 align-top">
-                          <span className="text-green-700 font-semibold whitespace-pre-line">{row.price}</span>
-                          {row.note && <p className="text-gray-400 text-xs mt-1">{row.note}</p>}
-                          {row.photoRequired && (
-                            <span className="inline-flex items-center gap-1 mt-2 text-xs bg-amber-50 border border-amber-200 text-amber-700 px-2 py-0.5 rounded-full">
-                              📷 Photo required
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-4 py-4 align-top">
-                          <span className="inline-flex items-center gap-1 text-gray-600 whitespace-nowrap">
-                            <Clock className="w-3.5 h-3.5 text-blue-500" />
-                            {row.time}
-                          </span>
-                        </td>
+                        {!hidePriceCol && (
+                          <td className="px-4 py-4 align-top">
+                            <span className="text-green-700 font-semibold whitespace-pre-line">{row.price}</span>
+                            {row.note && <p className="text-gray-400 text-xs mt-1">{row.note}</p>}
+                            {row.photoRequired && (
+                              <span className="inline-flex items-center gap-1 mt-2 text-xs bg-amber-50 border border-amber-200 text-amber-700 px-2 py-0.5 rounded-full">
+                                📷 Photo required
+                              </span>
+                            )}
+                          </td>
+                        )}
                         <td className="px-4 py-4 align-top">
                           <a
                             href={bookingUrl(category, row.brand, row.model)}

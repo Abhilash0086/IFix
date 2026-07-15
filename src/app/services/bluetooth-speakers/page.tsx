@@ -5,6 +5,7 @@ export const metadata = { title: "Bluetooth Speaker Repair Coimbatore | iFix Blu
 export default function BluetoothSpeakersPage() {
   return (
     <ServicePage
+      hidePriceCol
       category="Bluetooth Speaker"
       title="Bluetooth Speaker Repair"
       subtitle="Portable & Home Bluetooth Speakers"

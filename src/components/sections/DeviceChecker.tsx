@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, XCircle, MessageCircle, Clock, IndianRupee, ChevronRight, RotateCcw, AlertTriangle, Camera } from "lucide-react";
+import { CheckCircle2, XCircle, MessageCircle, IndianRupee, ChevronRight, RotateCcw, AlertTriangle, Camera } from "lucide-react";
 import {
   CHECKER_CATEGORIES,
   CHECKER_BRANDS,
@@ -193,20 +193,12 @@ export default function DeviceChecker() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-1">
-                          <IndianRupee className="w-3.5 h-3.5" /> Estimated Cost
-                        </div>
-                        <p className="text-gray-900 font-bold text-xl">{result.price}</p>
-                        {result.note && <p className="text-gray-400 text-xs mt-1">{result.note}</p>}
+                    <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                      <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-1">
+                        <IndianRupee className="w-3.5 h-3.5" /> Estimated Cost
                       </div>
-                      <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-1">
-                          <Clock className="w-3.5 h-3.5" /> Turnaround
-                        </div>
-                        <p className="text-gray-900 font-bold text-lg">{result.time}</p>
-                      </div>
+                      <p className="text-gray-900 font-bold text-xl">{result.price}</p>
+                      {result.note && <p className="text-gray-400 text-xs mt-1">{result.note}</p>}
                     </div>
 
                     {result.photoRequired && (

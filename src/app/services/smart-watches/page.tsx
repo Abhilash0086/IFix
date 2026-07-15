@@ -33,14 +33,14 @@ export default function SmartWatchesPage() {
           model: "T Rex",
           image: "/devices/Amazfit T Rex.png",
           complaints: ["Not on", "Battery issue", "Backup issue", "Charging but not on"],
-          price: "₹850",
+          price: "₹900",
           time: "Within 24 hrs",
         },
         {
           brand: "Amazfit",
           model: "T Rex Pro",
           complaints: ["Not on", "Battery issue", "Backup issue", "Charging but not on"],
-          price: "₹950",
+          price: "₹980",
           time: "Within 24 hrs",
         },
         {
