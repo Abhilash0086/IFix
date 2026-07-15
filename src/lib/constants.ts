@@ -48,9 +48,8 @@ export const COMPLAINT_TYPES: Record<DeviceCategory, string[]> = {
     "Wire cut", "Connectivity issues", "Other",
   ],
   Headphones: [
-    "No sound", "One side not working", "Mic not working",
-    "Charging not working", "Battery issue", "Headband broken",
-    "Ear cup damaged", "Physical damage", "Connectivity issues", "Other",
+    "No sound", "One side not working", "Charging port issue",
+    "Battery issue", "Ear cup damaged", "Physical damage", "Connectivity issues", "Other",
   ],
   "Bluetooth Speaker": [
     "No sound", "Low volume", "Charging pin / port damage", "Battery issue",
@@ -63,6 +62,6 @@ export const BRANDS: Record<DeviceCategory, string[]> = {
   "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "Fastrack", "Samsung", "Huawei", "Fossil", "Other"],
   "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "Boult", "Zebronics", "pTron", "Portronics", "Other"],
   Neckband:            ["boAt", "OnePlus", "JBL", "Sony", "Noise", "Boult Audio", "Zebronics", "Skullcandy", "Other"],
-  Headphones:          ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "Audio-Technica", "Other"],
+  Headphones:          ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Zebronics", "Audio-Technica", "Other"],
   "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "Bose", "Other"],
 };

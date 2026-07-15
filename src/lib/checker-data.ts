@@ -16,7 +16,7 @@ export const CHECKER_BRANDS: Record<CheckerCategory, string[]> = {
   "Smart Watch":       ["Amazfit", "Fire-Boltt", "boAt", "Noise", "Fastrack", "✗ realme", "✗ Zebronics", "✗ pTron", "✗ Apple Watch", "✗ Garmin", "✗ Other Brands"],
   "TWS / Earbuds":     ["JBL", "Sony", "boAt", "Noise", "OnePlus", "Boult", "Zebronics", "pTron", "Portronics", "✗ realme", "✗ Apple AirPods", "✗ Samsung Galaxy Buds", "✗ Other Brands"],
   "Neckband":          ["boAt", "OnePlus", "JBL", "Sony", "Noise", "Boult Audio", "Zebronics", "Skullcandy", "✗ realme", "✗ pTron", "✗ Other Brands"],
-  "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Philips", "Zebronics", "✗ Bang & Olufsen", "✗ Other Brands"],
+  "Headphones":        ["Jabra", "Sony", "JBL", "boAt", "Noise", "Sennheiser", "Skullcandy", "Zebronics", "✗ Bang & Olufsen", "✗ Other Brands"],
   "Bluetooth Speaker": ["JBL", "Marshall", "boAt", "Sony", "Portronics", "Zebronics", "Philips", "Mivi", "pTron", "✗ Ultimate Ears", "✗ Other Brands"],
 };
 
@@ -61,9 +61,8 @@ const EXACT: Partial<Record<CheckerCategory, Record<string, Record<string, Check
   },
   "Headphones": {
     Jabra: {
-      "Not Charging":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
+      "Charging port issue":   { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
       "Physical damage":       { type: "exact", price: "₹499 – ₹999", time: "Within 2 days", photoRequired: true },
-      "Mic not working":       { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
       "One side not working":  { type: "exact", price: "₹499 – ₹999", time: "Within 2 days" },
     },
   },
