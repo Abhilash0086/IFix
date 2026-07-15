@@ -262,7 +262,8 @@ function ContactFormInner() {
           <Info className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
           <p className="text-blue-700 text-sm leading-relaxed">
             Submitting an enquiry is mandatory — our executive will reach out to you shortly after registration.
-            All services are provided exclusively for registered enquiries.
+            All services are provided exclusively for registered enquiries.{" "}
+            <span className="font-bold">Your information is kept strictly confidential and will never be shared or misused.</span>
           </p>
         </div>
 
