@@ -78,13 +78,13 @@ export default function DeviceChecker() {
             {step === "category" && (
               <motion.div key="category" {...fadeSlide}>
                 <p className="text-gray-500 text-sm mb-5">What type of device do you want to repair?</p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="flex flex-wrap justify-center gap-3">
                   {CHECKER_CATEGORIES.map((cat) => (
                     <button
                       key={cat.label}
                       onClick={() => { setCategory(cat.label); setStep("brand"); }}
                       className={cn(
-                        "flex flex-col items-center gap-2 p-3 rounded-xl border bg-white text-center transition-all hover:scale-[1.03] hover:shadow-md overflow-hidden",
+                        "flex flex-col items-center gap-2 p-3 rounded-xl border bg-white text-center transition-all hover:scale-[1.03] hover:shadow-md overflow-hidden w-[calc(50%-6px)] sm:w-[calc(33.33%-8px)]",
                         cat.lightColor
                       )}
                     >
