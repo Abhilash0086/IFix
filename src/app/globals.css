@@ -4,7 +4,8 @@
   scroll-behavior: smooth;
 }
 
-body {
+html, body {
+  overflow-x: hidden;
   background: #f9fafb;
   color: #111827;
 }
