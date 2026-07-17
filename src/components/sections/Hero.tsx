@@ -17,7 +17,7 @@ const stats = [
 const photos = [
   { src: "/hero/repair-1.jpg", alt: "Technician repairing a device" },
   { src: "/hero/repair-2.jpg", alt: "Electronics repair close-up" },
-  { src: "/hero/repair-3.jpg", alt: "Device repair in progress" },
+  { src: "/hero/repair-3.png", alt: "Device repair in progress" },
 ];
 
 function Counter({ target, suffix, decimal }: { target: number; suffix: string; decimal?: boolean }) {
