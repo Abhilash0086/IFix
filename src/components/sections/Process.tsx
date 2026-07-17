@@ -84,7 +84,7 @@ function TimelineStep({ step, index, total }: { step: typeof steps[0]; index: nu
 
 export default function Process() {
   return (
-    <section id="process" className="py-24 bg-sky-50 overflow-hidden">
+    <section id="process" className="py-24 bg-sky-100 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

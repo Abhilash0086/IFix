@@ -37,7 +37,7 @@ export default function DeviceChecker() {
   const stepIndex = { category: 0, brand: 1, issue: 2, result: 3 }[step];
 
   return (
-    <section id="checker" className="py-24 bg-indigo-50">
+    <section id="checker" className="py-24 bg-indigo-100">
       <div className="container mx-auto px-4 max-w-3xl">
         {/* Header */}
         <div className="text-center mb-10">

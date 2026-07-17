@@ -42,7 +42,7 @@ function enquireUrl(category: string, brand: string) {
 
 export default function DeviceShowcase() {
   return (
-    <section className="py-20 bg-blue-50 border-b border-blue-100">
+    <section className="py-20 bg-blue-100 border-b border-blue-200">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-12">

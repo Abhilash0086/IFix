@@ -43,7 +43,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-24 bg-amber-50 overflow-hidden">
+    <section id="testimonials" className="py-24 bg-amber-100 overflow-hidden">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
