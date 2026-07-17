@@ -157,14 +157,14 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3"
+          className="flex flex-wrap justify-center gap-3"
         >
           {stats.map(({ icon: Icon, value, suffix, label, display, decimal }) => (
             <motion.div
               key={label}
               whileHover={{ scale: 1.04, y: -3 }}
               transition={{ type: "spring", stiffness: 300 }}
-              className="relative bg-white border border-gray-200 rounded-2xl p-4 shadow-sm overflow-hidden group hover:shadow-md hover:border-blue-200 transition-all text-center"
+              className="relative bg-white border border-gray-200 rounded-2xl p-4 shadow-sm overflow-hidden group hover:shadow-md hover:border-blue-200 transition-all text-center w-[calc(50%-6px)] sm:w-[calc(33.33%-8px)] md:w-[calc(20%-10px)]"
             >
               <div className="absolute inset-0 bg-blue-50/0 group-hover:bg-blue-50/60 transition-colors rounded-2xl" />
               <Icon className="w-6 h-6 text-blue-600 mx-auto mb-2" />
