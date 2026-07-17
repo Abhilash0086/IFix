@@ -211,7 +211,7 @@ function ContactFormInner() {
         )}
 
         <Field label="Model (optional)">
-          <input {...register("modelType")} placeholder="e.g. boAt Airdopes 141" className={inputCls(false)} />
+          <input {...register("modelType")} placeholder="e.g. JBL Wave Beam, Sony WF-1000XM4" className={inputCls(false)} />
         </Field>
 
         <Field label="Remarks (optional)">

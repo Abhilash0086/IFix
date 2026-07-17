@@ -10,7 +10,7 @@ const devices = [
   { image: "/devices/Fire Boltt Snapp.png",     brand: "Fire-Boltt", model: "Snap",           category: "Smart Watch"       },
   { image: "/devices/JBL Tws 130.png",          brand: "JBL",        model: "TWS 130 NC",     category: "TWS / Earbuds"     },
   { image: "/devices/JBL Tws 230.png",          brand: "JBL",        model: "TWS 230 NC",     category: "TWS / Earbuds"     },
-  { image: "/devices/TWS.png",                  brand: "boAt",       model: "Airdopes",       category: "TWS / Earbuds"     },
+  { image: "/devices/TWS.png",                  brand: "All Brands", model: "Any TWS / Earbuds", category: "TWS / Earbuds"  },
   { image: "/devices/JBL wave beam.png",        brand: "JBL",        model: "Wave Beam",      category: "TWS / Earbuds"     },
   { image: "/devices/Sony WF 1000xm3.png",      brand: "Sony",       model: "WF-1000XM3",     category: "TWS / Earbuds"     },
   { image: "/devices/Sony WF 1000xm4.png",      brand: "Sony",       model: "WF-1000XM4",     category: "TWS / Earbuds"     },
